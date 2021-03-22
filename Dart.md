@@ -41,8 +41,8 @@ var variavel = 1 // a partir desta atribuição agora variavel é do tipo int
 ### constantes
 Assim como as variáveis as constantes também tem tipos, e assim como var aceitam tipo por inferência
 final ou const
-**const** é uma constante em tempo de compilação
-**final** é uma constante em tempo de execução
+**const** é uma constante em tempo de compilação, os valores podem ser definidos em tempo de compilação
+**final** é uma constante em tempo de execução, os valores são definidos em tempo de execução
 
 ```dart
 const String teste = 'teste' //definida em tempo de compilação
@@ -79,6 +79,7 @@ são variáveis que contem mais de um valor. Todas são do tipo genérics, (ou s
 os valores podem ter tipos iguais ou diferentes (recomendado que sejam iguais)
 podem ser inferidos também
 
+##### Lists
  - List(ou array) aceita um tipo Lista de outros tipos, aceita valore repetidos e possuem indice numérico
 ```dart
 List<Object> aprovados = ['ana', 'carlos', 'daniel', 'rene', 23];
@@ -88,6 +89,13 @@ ou
 var aprovados = ['ana', 'carlos', 'daniel', 'rene', 23];
 
 ```
+###### Métodos ou atributos uteis de list
+lista.lenth = mostra o tamanho da list
+lista.add(item) = adiciona item a lista
+lista[idx] ou lista.elementAt(idx) = retorna apenas o elemento de de indice 'idx' na lista
+
+
+##### Map
  - Map  aceita um tipo para chave e outro para valor, chave tem de ser única, caso tenha repetição pegará a ultima
 ```dart
 Map<Object> telefones = {
@@ -111,7 +119,14 @@ var telefones = {
   "oples": 0766,
 };
 ```
- - Set  não tem indice, mas os valores tem de ser unicos
+###### Métodos ou atributos uteis de map
+mapa.lenth = mostra o tamanho da list
+mapa.keys = pega apenas as chaves
+mapa.values = pega apenas os valores
+mapa.entries = pega o item inteiro, com chave e valor
+
+##### Set
+ - Set  não tem indice, mas os valores tem de ser unicos (são como formato json, muito usado em js)
 ```dart
 Set<Object> times = {'vasco', 'flamengo', 'palmeiras', 'corinthians', 123.432};
 ou
@@ -120,6 +135,10 @@ ou
 var times = {'vasco', 'flamengo', 'palmeiras', 'corinthians', 123.432};
 ```
 
+###### Métodos ou atributos uteis de set
+conjunto.lenth = mostra o tamanho de conjunto
+conjunto.add(item) = adiciona item a conjunto
+conjunto.fold = é o reduce do conjunto
 ### Funções
 por padrão recebem parametros do tipo dinâmico
 
