@@ -255,7 +255,7 @@ main(){
 
 ### Classes
 classes são modelos como um corola é um modelo de um carro,
-atributos precedidos de '_' são privados, como exemplo a abaixo _velocidade, não são alcançaveis de fora da classe, precisa de um getter and setter para isso.
+atributos, metodos ou classes precedidos de '_' **são privados**, como exemplo a abaixo _velocidade, não são alcançaveis de fora da do **arquivo** onde foram criados, precisa de um getter and setter para isso.
 
 ```dart
 class Carro {
