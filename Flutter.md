@@ -27,6 +27,10 @@ rodar os commandos:
  
  **NOTA: tanto para web ou desktop estes comandos devem ser executados na raiz do projeto**
 
+### instalando o get_cli, (o npm do flutter)
+Depois do flutter instalado executar o commando:
+`flutter pub global activate get_cli`
+
 ### Rodando em seu dispositivo
 
 
@@ -326,4 +330,8 @@ tirando o child o resto é como no css na web
 
 **NOTA: alguns componentes tem padding e outros não. Para aplicar o padding em componentes que não tenham, basta envolver o componente com o Widget Padding()**
 
-##### aplicando estilo
+### controlers
+
+## Baixando e instalando pacotes externos
+1. Método 1 - alterando o `pubscpec.yaml`
+2. Método 2 - usando o get_cli (npm do flutter)
