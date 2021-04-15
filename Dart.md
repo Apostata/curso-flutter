@@ -74,11 +74,13 @@ bool isTrue = true;
 ```dart
 dynamic dyn = 1 ou 2.45 ou 'teste' ou true // aceita qualquer tipo e pode ser atribuido qualquer tipo a qualuer hora
 ```
-#### Lists ou Arrays, Maps e Sets
+### Lists ou Arrays, Maps e Sets
 são variáveis que contem mais de um valor. Todas são do tipo genérics, (ou seja são tipos que aceitam tipos, pois contem mais de um valor).
 os valores podem ter tipos iguais ou diferentes (recomendado que sejam iguais)
 podem ser inferidos também
 
+### Tipo Future
+Para trabalhar com asícronismo, como a Promise do js
 ##### Lists
  - List(ou array) aceita um tipo Lista de outros tipos, aceita valore repetidos e possuem indice numérico
 ```dart
@@ -231,7 +233,8 @@ main(){
   print(nomes3.toList());
 }
 ```
-#### Função Reduce
+#### Função Reduce e Fold
+##### Reduce
 Função feita para acumular conforme percorre a lista e/ou mudar o tipo da lista:
 
 ```dart
@@ -251,6 +254,18 @@ main(){
   print(total1);
   print(total2);
 }
+```
+
+##### Fold
+Mesma coisa que o reduce porém é possível passar um valor inicial, exatamente como o reduce do javascript
+recebe 2 parametros o primeiro é o valor inicial, no caso abaixo é o `0` e o segundo é a funcão, que por sua vez recebe 2 parameros também, o primeiro é o item resultante do reduce, o acumulado. e o segundo é o item da iteração atual.
+
+```dart
+ double get _weekSum {
+    return groupTransactions.fold(0, (acu, tr) {
+      return acu + tr['value'];
+    });
+  }
 ```
 
 ### Classes

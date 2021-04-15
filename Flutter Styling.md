@@ -68,3 +68,29 @@ Container(
 aceita uma lista de elementos *children*
 tem limitações de customização, apenas de posições e direcionamento
 tem largura fixa, ocupa ou largura(Row) ou altura(Column) toda
+
+## Criando e aplicando um tema
+basta colocar a propriedade `theme` em no componente `MaterialApp`(neste caso, mas pode ser Cupertino também);
+
+Abaixo setamos duas propriedades de tema:
+PrimarySwatch, seria a paleta de cor baseada no roxo, poderiamos ter colocado a penas PrimaryColor, que seria apenas uma cor
+e accentColot, seria a cor de destaque, apenas uma cor
+
+```dart
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+
+      theme: ThemeData(
+        primarySwatch: Colors.purple,
+        accentColor: Colors.amber, //cor de destaque
+      ),
+
+      home: MyHomePage(),
+    );
+  }
+}
+```
+
+## adicionando fonte
