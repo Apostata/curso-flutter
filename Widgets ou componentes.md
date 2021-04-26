@@ -14,6 +14,7 @@ Gerá um header, body e footer
 - Container
 - Row
 - Column
+- LayoutBuilder - Mais complexo, para pegar as dimensões do componente pai para considerar responsividade
 ### Filhos de Widgets de Layout
 Funcionam apenas em conjunto com os widgets acima
 
@@ -57,6 +58,7 @@ camadas(aparentemente um posicionamento absoluto) elemento dentro de outro
 - ElevatedButton
 - TextButton
 - InkWell
+- Switch - um botão do tipo switch trocar entre true ou false
 
 ### invisíveis
 - GestureDetector

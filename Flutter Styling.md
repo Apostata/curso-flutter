@@ -94,3 +94,59 @@ class MyApp extends StatelessWidget {
 ```
 
 ## adicionando fonte
+
+
+## Responsividade 
+### MediaQuery
+Para trabalhar com responsividade.
+
+exemplo para pegar toda altura do dispositivo, desconsiderando a AppBar.
+```dart
+final double availableHight = MediaQuery.of(context).size.height -
+        appbar.preferredSize.height -
+        MediaQuery.of(context).padding.top;
+```
+
+### Reposonsive texts
+Para halilitar acessibilidade de textos via configuração do aparelho
+
+```dart
+fontSize: 18 * MediaQuery.of(context).textScaleFactor,
+```
+
+## LayoutBuilder
+retorna uma função builder passando o contexto do componente Pai, para questões de responsividade em relação ao objeto pai.
+`contraints` é a propriedade que terá as dimensões do componente pai:
+```dart
+LayoutBuilder(
+  builder: (ctx, constraints) {
+    return Column(
+      children: [
+        Container(
+          height: constraints.maxHeight * 0.15,
+          child: FittedBox(
+            child: Text('${value.toStringAsFixed(2)}'),
+          ),
+        ),
+      ]
+    )
+  }
+)
+```
+## Orientações suportadas
+Para limitar a aplicação a apenas a certas orientações, basta colocar no componente principal da sua aplicação o `SystemChrome` da biblioteca `services.dart` 
+```dart
+class ExpensesApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+
+    SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp],
+    ); // orientação só retrato
+
+    return MaterialApp(
+      ...
+    )
+  }
+}
+```
