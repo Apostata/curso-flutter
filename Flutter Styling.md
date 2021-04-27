@@ -150,3 +150,4 @@ class ExpensesApp extends StatelessWidget {
   }
 }
 ```
+### Trabalhando com Larguras maiores
