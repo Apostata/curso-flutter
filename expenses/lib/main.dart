@@ -114,7 +114,10 @@ class _MyHomePage extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     final MediaQueryData mediaquery = MediaQuery.of(context);
-    bool isLandscape = mediaquery.orientation == Orientation.landscape;
+    final bool isDesktopApp =
+        Platform.isLinux || Platform.isWindows || Platform.isMacOS;
+    bool isLandscape =
+        mediaquery.orientation == Orientation.landscape && !isDesktopApp;
 
     final iconList = Platform.isIOS ? CupertinoIcons.list_bullet : Icons.list;
     final iconChart =

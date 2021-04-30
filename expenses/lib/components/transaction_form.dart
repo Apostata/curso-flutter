@@ -1,5 +1,8 @@
+import 'package:expenses/components/adaptative_datePicker.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'adaptative_button.dart';
+import 'adaptative_textField.dart';
+import 'adaptative_datePicker.dart';
 
 class TransactionForm extends StatefulWidget {
   final void Function(String, double, DateTime) _addTransaction;
@@ -22,27 +25,6 @@ class _TransactionFormState extends State<TransactionForm> {
     widget._addTransaction(title, value, _datePickerControler);
   }
 
-  _showDatePicker() {
-    showDatePicker(
-      context: context,
-      initialDate: DateTime(
-        DateTime.now().year,
-        DateTime.now().month,
-        DateTime.now().day - 7,
-      ),
-      firstDate: DateTime.now().subtract(Duration(days: 365)),
-      lastDate: DateTime.now(),
-      locale: Locale('pt', 'BR'),
-    ).then((dateSelected) {
-      if (dateSelected == null) {
-        return;
-      }
-      setState(() {
-        _datePickerControler = dateSelected;
-      });
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -57,54 +39,33 @@ class _TransactionFormState extends State<TransactionForm> {
           ),
           child: Column(
             children: <Widget>[
-              TextField(
-                decoration: InputDecoration(labelText: 'Título'),
+              AdaptativeTextField(
+                label: 'Título',
                 controller: _titleControler,
                 onSubmitted: (_) => _onSubmit(),
               ),
-              TextField(
+              AdaptativeTextField(
                 keyboardType: TextInputType.numberWithOptions(
                   decimal: true,
                 ), // para mostrar teclado copleto numerico no IOS
                 onSubmitted: (_) => _onSubmit(),
-                decoration: InputDecoration(
-                  labelText: 'valor (R\$)',
-                ),
+                label: 'valor (R\$)',
                 controller: _valueControler,
               ),
-              Container(
-                height: 70,
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        _datePickerControler != null
-                            ? 'Data Selecionada: ${DateFormat('dd/MM/yyyy').format(_datePickerControler)}'
-                            : 'Nenhuma data selecionada!',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    TextButton(
-                      child: Text(
-                        'Selecionar Data',
-                        style: TextStyle(
-                          color: Theme.of(context).primaryColor,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      onPressed: _showDatePicker,
-                    )
-                  ],
-                ),
+              AdaptativeDatePicker(
+                onDateChange: (newDate) {
+                  setState(() {
+                    _datePickerControler = newDate;
+                  });
+                },
+                selectedDate: _datePickerControler,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  ElevatedButton(
+                  AdaptiveButton(
                     onPressed: _onSubmit,
-                    child: Text(
-                      'Nova transação',
-                    ),
+                    label: 'Nova transação',
                   ),
                 ],
               )
