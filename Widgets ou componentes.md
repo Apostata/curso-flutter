@@ -62,3 +62,5 @@ camadas(aparentemente um posicionamento absoluto) elemento dentro de outro
 
 ### invisíveis
 - GestureDetector
+
+## BoxDecoration

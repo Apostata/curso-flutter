@@ -7,16 +7,45 @@ import 'adaptative_datePicker.dart';
 class TransactionForm extends StatefulWidget {
   final void Function(String, double, DateTime) _addTransaction;
 
-  TransactionForm(this._addTransaction);
+  TransactionForm(this._addTransaction) {
+    print('transaction form: constructor');
+  }
 
   @override
-  _TransactionFormState createState() => _TransactionFormState();
+  _TransactionFormState createState() {
+    print('transaction form: create state');
+    return _TransactionFormState();
+  }
 }
 
 class _TransactionFormState extends State<TransactionForm> {
   final _titleControler = TextEditingController();
   final _valueControler = TextEditingController();
   DateTime _datePickerControler = DateTime.now();
+
+  _TransactionFormState() {
+    print('transaction form state: constructor');
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    print('transaction form state: initState()');
+  }
+
+  @override
+  void didUpdateWidget(Widget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // final bool isEqual = widget != oldWidget;
+    // print(isEqual);
+    print('transaction form state: didUpdateWidget()');
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    print('transaction form state: dispose()');
+  }
 
   _onSubmit() {
     final String title = _titleControler.text;
@@ -27,6 +56,7 @@ class _TransactionFormState extends State<TransactionForm> {
 
   @override
   Widget build(BuildContext context) {
+    print('transaction form state: build()');
     return SingleChildScrollView(
       child: Card(
         elevation: 5,
@@ -45,7 +75,7 @@ class _TransactionFormState extends State<TransactionForm> {
                 onSubmitted: (_) => _onSubmit(),
               ),
               AdaptativeTextField(
-                keyboardType: TextInputType.numberWithOptions(
+                keyboardType: const TextInputType.numberWithOptions(
                   decimal: true,
                 ), // para mostrar teclado copleto numerico no IOS
                 onSubmitted: (_) => _onSubmit(),

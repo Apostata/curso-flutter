@@ -96,6 +96,29 @@ class MyApp extends StatelessWidget {
   }
 }
 ```
+## Entendendo o Framework
+### 60fps para rerenderizazão da tela
+O metodo Build é o que renderiza o componente
+
+### Arvores de Widgets e Elementos
+#### Arrvore de Widgets/componentes(Imutáveis)
+Configuração da aplicação, chama metodo build, frequentemente reconstruida
+
+#### Arvore de Elementos (estrutura lógica)
+Liga o widget com elemento renderizado, raramente reconstruida
+Se elemento é statefull é nesta arvore que fica seu estado
+
+#### Arvore de renderização (visivel na tela)
+Objeto Renderizado na tela. Raramente recontruida
+A arvore que pinta os componentes da tela, o objeto renderizado
+
+## LifeCycles
+Quando o metodo build é chamado?
+
+setState
+mudandaOrientação (MediaQuery.of)
+
+Atualiza a referência na arvore de elementos(não recria ela)
 
 ## Widget (componente)
 Widget é o componente padrão do Flutter como no react usar um componente de classe ou funcional, neste casso é chamado de Widget  
@@ -330,8 +353,107 @@ tirando o child o resto é como no css na web
 
 **NOTA: alguns componentes tem padding e outros não. Para aplicar o padding em componentes que não tenham, basta envolver o componente com o Widget Padding()**
 
-### controlers
-
 ## Baixando e instalando pacotes externos
 1. Método 1 - alterando o `pubscpec.yaml`
 2. Método 2 - usando o get_cli (npm do flutter)
+
+## Ciclo de vida dos componentes (Wdgets)
+### Stateless
+* contrutor
+* build()
+
+### Stateful
+* constructor
+* initState() -similar ao didMount do react, exemplo de uso chamar o back para retornar uma lista
+* build() -> sempre roda ao iniciar o componente
+* setState() -> sempre chama o build()
+* didUpdateWidget() -> quando altera o componente. chama o build(), é possível verificar as diferenças entre o widget e o oldWidget
+* dispose() -> similar ao didUmmont, quando o componente sai da tela
+  
+## Ciclos de vida da aplicação
+* inativo -> app inatico, nenhuma etrado do usuário é recebida, quando app é minimizado
+* paused -> app não visível, executando em background
+* resumed -> app novamente visível e respondendo ao usuário
+* suspending ou detached -> app será suspensa (sair), no android quando clica no botão volar
+
+## Context e BuildContext
+* contexto é unico por elemento
+* um contexto tem herança, ou seja contexto filho enxerga o pai
+* São meta informações sobre o componente e sua localização na arvore de componente
+* usando .of para pegar a referência na arvore
+* Exemplos que usam contexto Theme, MediaQuery, Navigator
+  
+### InheritedWidget
+Pegar um dado que está por exemplo no componente pai do pai, para isso o Inherited funciona melhor
+MediaQuery é um Inherited Widget. mantem uma ponte para comunicação direta
+
+
+## Bug com ListView.builder() e elementos da lista Stateful
+não relaciona direito o componentes da arvore de componentes com o respectivo elemento da arvore de elemento(arvore de estados)
+Solução:
+Componente Lista:
+```dart
+ListView.builder(
+    itemCount: transactions.length,
+    itemBuilder: (ctx, idx) {
+      final transaction = transactions[idx];
+      return TransactionItem(
+        key: GlobalObjectKey(
+            //GlobalObjectKey chava unica dentro do listView para apenas listItems que seja StateFull
+            transaction),
+        transaction: transaction,
+        deleteTransaction: _deleteTransaction,
+      );
+    },
+  );
+```
+
+Componente do item da lista:
+```dart
+class TransactionItem extends StatefulWidget {
+  final Transaction transaction;
+  final void Function(String) deleteTransaction;
+
+  const TransactionItem({
+    Key key, //recebe a key gerada no builder do listView
+    @required this.transaction,
+    @required this.deleteTransaction,
+  }) : super(key: key); // relaciona cada item da lista e passa para o listView
+
+  @override
+  _TransactionItemState createState() => _TransactionItemState();
+}
+
+class _TransactionItemState extends State<TransactionItem> {
+  static const colors = <Color>[
+    Colors.red,
+    Colors.purple,
+    Colors.orange,
+    Colors.blue,
+    Colors.black
+  ];
+
+  Color _backgroundColor;
+
+  @override
+  void initState() {
+    super.initState();
+    int i = Random().nextInt(colors.length);
+    _backgroundColor = colors[i];
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 5,
+      margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 5),
+      child: ...QualquerComponente()
+    )
+  }
+}
+
+```
+
+## Mixin 
+adicionar função ao código?
+ver mais adiante

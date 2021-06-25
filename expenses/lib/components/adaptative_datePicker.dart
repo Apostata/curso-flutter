@@ -7,7 +7,7 @@ class AdaptativeDatePicker extends StatelessWidget {
   final DateTime selectedDate;
   final Function(DateTime) onDateChange;
 
-  AdaptativeDatePicker({
+  const AdaptativeDatePicker({
     this.selectedDate,
     this.onDateChange,
   });
@@ -58,7 +58,7 @@ class AdaptativeDatePicker extends StatelessWidget {
                     selectedDate != null
                         ? 'Data Selecionada: ${DateFormat('dd/MM/yyyy').format(selectedDate)}'
                         : 'Nenhuma data selecionada!',
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),
                 TextButton(

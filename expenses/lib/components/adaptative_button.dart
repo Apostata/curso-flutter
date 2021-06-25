@@ -6,7 +6,7 @@ class AdaptiveButton extends StatelessWidget {
   final String label;
   final Function onPressed;
 
-  AdaptiveButton({
+  const AdaptiveButton({
     this.label,
     this.onPressed,
   });
@@ -18,7 +18,7 @@ class AdaptiveButton extends StatelessWidget {
             child: Text(label),
             onPressed: onPressed,
             color: Theme.of(context).textTheme.button.color,
-            padding: EdgeInsets.symmetric(
+            padding: const EdgeInsets.symmetric(
               horizontal: 20,
             ),
           )

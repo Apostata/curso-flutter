@@ -56,9 +56,26 @@ class MyHomePage extends StatefulWidget {
   }
 }
 
-class _MyHomePage extends State<MyHomePage> {
+class _MyHomePage extends State<MyHomePage> with WidgetsBindingObserver {
   final _transactions = <Transaction>[];
   bool _showChart = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    WidgetsBinding.instance.removeObserver(this);
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    print(state);
+  }
 
   List<Transaction> get _recentTransactions {
     DateTime semanaPassada = DateTime.now().subtract(Duration(days: 7));
