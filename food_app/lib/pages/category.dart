@@ -17,23 +17,19 @@ class CategoryPage extends StatelessWidget {
     final double availableHight = mediaquery.size.height -
         appBar.preferredSize.height -
         mediaquery.padding.top;
-    final double availableWidth = mediaquery.size.width;
 
-    return Scaffold(
-      appBar: appBar,
-      body: GridView(
-        padding: EdgeInsets.all(15),
-        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-          maxCrossAxisExtent: 200,
-          mainAxisExtent: (availableHight / 5) - 25,
-          childAspectRatio: 1 / 2,
-          crossAxisSpacing: 20,
-          mainAxisSpacing: 20,
-        ),
-        children: data.DUMMY_CATEGORIES.map((category) {
-          return CategoryItem(category);
-        }).toList(),
+    return GridView(
+      padding: EdgeInsets.all(15),
+      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+        maxCrossAxisExtent: 200,
+        mainAxisExtent: (availableHight / 5) - 25,
+        childAspectRatio: 1 / 2,
+        crossAxisSpacing: 20,
+        mainAxisSpacing: 20,
       ),
+      children: data.DUMMY_CATEGORIES.map((category) {
+        return CategoryItem(category);
+      }).toList(),
     );
   }
 }

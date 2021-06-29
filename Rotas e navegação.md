@@ -50,8 +50,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         ...
       ),
-      home: CategoryPage(),
       routes: {
+        '/': (ctx) => CategoryPage(),
         '/categories-food': (ctx) => CategoriesFoodPage(),
       },
     );
@@ -105,6 +105,52 @@ class CategoriesFoodPage extends StatelessWidget {
       ),
       body: Center(
         child: Text('receitas por categoria:${category.id}'),
+      ),
+    );
+  }
+}
+
+```
+## Rotas dinâmicas
+
+## Rota 404
+
+## TabBar
+Usando Navegação em abas no appBar(header)
+
+```dart
+import 'package:flutter/material.dart';
+import 'package:food_app/pages/category.dart';
+import './favorite_page.dart';
+
+class TabsPage extends StatelessWidget {
+  const TabsPage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('Vamos cozinhar'),
+          bottom: TabBar(
+            overlayColor:
+                MaterialStateProperty.all(Theme.of(context).primaryColorDark),
+            tabs: [
+              Tab(
+                icon: Icon(Icons.category),
+                text: 'Categorias',
+              ),
+              Tab(
+                icon: Icon(Icons.star),
+                text: 'Favoritos',
+              )
+            ],
+          ),
+        ),
+        body: TabBarView(
+          children: [CategoryPage(), FavoritePage()],
+        ),
       ),
     );
   }
