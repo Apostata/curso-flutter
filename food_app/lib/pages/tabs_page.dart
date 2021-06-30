@@ -5,8 +5,8 @@ import 'package:food_app/pages/category.dart';
 import './favorite_page.dart';
 
 class TabsPage extends StatefulWidget {
-  // final List<Recipe> favourites;
-  // const TabsPage(this.favourites);
+  final List<Recipe> favorites;
+  const TabsPage(this.favorites);
 
   @override
   _TabsPageState createState() => _TabsPageState();
@@ -14,11 +14,22 @@ class TabsPage extends StatefulWidget {
 
 class _TabsPageState extends State<TabsPage> {
   int _selectedIndex = 0;
+  late List<Map<String, Object>> _pages;
 
-  final List<Map<String, Object>> _pages = [
-    {'title': 'Lista de Categorias', 'page': CategoryPage()},
-    {'title': 'Meus Favoritos', 'page': FavoritePage()},
-  ];
+  @override
+  void initState() {
+    super.initState();
+    _pages = [
+      {
+        'title': 'Lista de Categorias',
+        'page': CategoryPage(),
+      },
+      {
+        'title': 'Meus Favoritos',
+        'page': FavoritePage(widget.favorites),
+      },
+    ];
+  }
 
   _selectPage(int index) {
     setState(() {

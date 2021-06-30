@@ -18,6 +18,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   List<Recipe> _availablesRecipes = DUMMY_MEALS;
+  List<Recipe> _favoritesRecipes = [];
   Settings settings = Settings();
 
   void _filterRecipes(Settings settings) {
@@ -39,16 +40,29 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+  void toggleFavorite(Recipe recipe) {
+    setState(() {
+      _favoritesRecipes.contains(recipe)
+          ? _favoritesRecipes.remove(recipe)
+          : _favoritesRecipes.add(recipe);
+    });
+  }
+
+  bool _isFavorite(Recipe recipe) {
+    return _favoritesRecipes.contains(recipe);
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'FodApp',
       theme: theme,
       routes: {
-        AppRoutes.HOME: (ctx) => TabsPage(),
+        AppRoutes.HOME: (ctx) => TabsPage(_favoritesRecipes),
         AppRoutes.CATEGORIES_FOOD: (ctx) =>
             CategoriesRecipesPage(_availablesRecipes),
-        AppRoutes.RECIPE: (ctx) => RecipeDetailPage(),
+        AppRoutes.RECIPE: (ctx) =>
+            RecipeDetailPage(toggleFavorite, _isFavorite),
         AppRoutes.SETTINGS: (ctx) => SettingPage(settings, _filterRecipes),
       },
       onGenerateRoute: (settins) {
@@ -59,7 +73,7 @@ class _MyAppState extends State<MyApp> {
         } else {
           return MaterialPageRoute(
             builder: (_) {
-              return TabsPage();
+              return TabsPage(_favoritesRecipes);
             },
           );
         }

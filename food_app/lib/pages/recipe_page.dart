@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:food_app/models/recipes.dart';
 
 class RecipeDetailPage extends StatelessWidget {
+  final Function(Recipe) onToggleFavorite;
+  final bool Function(Recipe) isFavorite;
+
+  const RecipeDetailPage(this.onToggleFavorite, this.isFavorite);
+
   Widget _generateSectionTitle(BuildContext context, String title) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10),
@@ -94,9 +99,9 @@ class RecipeDetailPage extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.star),
+          child: Icon(isFavorite(recipe) ? Icons.star : Icons.star_border),
           onPressed: () {
-            Navigator.of(context).pop(recipe);
+            onToggleFavorite(recipe);
           }),
     );
   }

@@ -22,7 +22,7 @@ class CategoryPage extends StatelessWidget {
       padding: EdgeInsets.all(15),
       gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
         maxCrossAxisExtent: 200,
-        mainAxisExtent: (availableHight / 5) - 25,
+        mainAxisExtent: (availableHight / 5) - 33,
         childAspectRatio: 1 / 2,
         crossAxisSpacing: 20,
         mainAxisSpacing: 20,
