@@ -112,8 +112,141 @@ class CategoriesFoodPage extends StatelessWidget {
 
 ```
 ## Rotas dinâmicas
+Criar um arquivo de rotas:
+```dart
+const PRODUCT_DETAIL = '/product-detail';
+```
 
-## Rota 404
+no main.dart. importa-lo e no componente `MyApp`, ou o nome que for dado ao componente inicial, adicionar a propriedade rotas e apontar cada rota para a sua página específica
+```dart
+...
+import 'package:shop/pages/product_item_page.dart';
+import './routes/routes.dart' as Routes;
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Shop',
+      theme: theme,
+      home: ProductsPage(),
+      debugShowCheckedModeBanner: false,
+      routes: {
+        Routes.PRODUCT_DETAIL:(ctx)=> ProductDetailsPage()
+      },
+    );
+  }
+}
+```
+
+no componente che chamar a rota, utilizar o `Navigator.of().pushNamed`, passando a rota e os argumentos
+```dart
+...
+import 'package:shop/models/product.dart';
+import '../routes//routes.dart' as Routes;
+
+class ProductItem extends StatelessWidget {
+  final Product product;
+  const ProductItem({Key? key, required this.product}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(10),
+      child: GridTile(
+        child: GestureDetector(
+          child: Image.network(
+            product.imageUrl,
+            fit: BoxFit.cover,
+          ),
+          onTap: () {
+            Navigator.of(context).pushNamed(
+              Routes.PRODUCT_DETAIL,
+              arguments: product,
+            );
+          },
+        ),
+        ...
+      ),
+    );
+  }
+}
+
+```
+
+na componente da página, utilizar o `ModalRoute.of()` para pegar os argumentos passados pela rota
+
+**NOTA:neste caso está como o caractere `!` para garantir que sempre será passado o .settings.arguments**
+
+```dart
+...
+import 'package:shop/models/product.dart';
+
+class ProductDetailsPage extends StatelessWidget {
+  const ProductDetailsPage({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final Product product = ModalRoute.of(context)!.settings.arguments as Product;
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(product.title)
+      ),
+    );
+  }
+}
+```
+
+## Rota 404 e tratativa de rotas específicas
+caso o app não encontre a rota requerida, podemos definir uma rota 404 para ele, com o metoto `onUnknownRoute`. Caso queira tratar uma rota específica por exemplot '/xpto' e redireciona-la para a uma página específica, utiliza-se o metodo `onGenerateRoute`.
+
+**NOTA: `onGenerateRoute` é chamado primeiro que `onUnknownRoute`**
+
+```dart
+...
+import './pages/products_page.dart';
+import 'package:shop/pages/product_item_page.dart';
+import './routes/routes.dart' as Routes;
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Shop',
+      theme: theme,
+      home: ProductsPage(),
+      debugShowCheckedModeBanner: false,
+      routes: {
+        Routes.PRODUCT_DETAIL:(ctx)=> ProductDetailsPage()
+      },
+      onGenerateRoute: (settings) {
+        if(settings.name == '/xpto'){
+          return MaterialPageRoute(builder: (_) => ProductsPage());
+        }
+      },
+      onUnknownRoute: (settings){
+        return MaterialPageRoute(builder: (_) => ProductsPage());
+      },
+    );
+  }
+}
+```
 
 ## TabBar
 Usando Navegação em abas no appBar(header)

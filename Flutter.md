@@ -386,6 +386,7 @@ tirando o child o resto é como no css na web
 ### InheritedWidget
 Pegar um dado que está por exemplo no componente pai do pai, para isso o Inherited funciona melhor
 MediaQuery é um Inherited Widget. mantem uma ponte para comunicação direta
+como um context no react
 
 
 ## Bug com ListView.builder() e elementos da lista Stateful
