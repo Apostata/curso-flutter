@@ -340,6 +340,83 @@ class Carro {
   ...
 }
 ```
+
+### Mixins
+Mixin funciona como copiar e colar os metodos e propriedades dele para uma classe, dart apenas herda de uma única classe, mixins resolve este problema.
+
+```dart
+class Carro {
+  int _velocidade = 0;
+  int acelerar(){
+    _velocidade += 5;
+    return _velocidade;
+  }
+  int frear(){
+    _velocidade -= 5;
+    return _velocidade;
+  }
+}
+
+mixin Luxo{
+  bool _arLigado = false;
+  
+  bool ligarAr(){
+    _arLigado = true;
+    return _arLigado;
+  }
+  
+  bool desligarAr(){ 
+    _arLigado= false;
+    return _arLigado;
+  }
+}
+
+mixin Esportivo{
+  bool _turboLigado = false;
+  
+  ligarTubo(){
+    _turboLigado = true;
+  }
+  
+  desligarTurbo(){ 
+    _turboLigado= false;
+  }
+}
+
+
+class Ferrari extends Carro with Esportivo, Luxo{
+  @override
+  int acelerar(){
+    if(_turboLigado){
+      super.acelerar();
+    }
+    return super.acelerar();
+  }
+}
+class Gol extends Carro{}
+
+void main() {
+  final c1 = Ferrari(); 
+  print('---- Ferrari ----');
+  print(c1.ligarAr());
+  print(c1.acelerar());
+  print('-- Ligar turbo --');
+  c1.ligarTubo();
+  print(c1.acelerar());
+  print(c1.frear());
+  print(c1.frear());
+  print(c1.frear());
+  
+  final c2 = Gol();
+  print('---- Gol ----');
+  print(c2.acelerar());
+  print(c2.acelerar());
+  print(c2.frear());
+  print(c2.frear());
+}
+
+```
+
 ### Composição
 Exemplo:
 ```dart
