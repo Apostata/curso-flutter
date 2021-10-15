@@ -67,3 +67,34 @@ camadas(aparentemente um posicionamento absoluto) elemento dentro de outro
 ### invisíveis
 - GestureDetector
 
+
+## Widgets espefícos
+
+### AppBar
+Actions é onde colocamos ações como botões e outras ações.
+
+```dart
+AppBar(
+  title: const Text('Minha loja'),
+  actions: [
+    PopupMenuButton(
+      icon: const Icon(Icons.more_vert),
+      itemBuilder: (_) => [
+            const PopupMenuItem(
+              child: Text('Only Favourites'),
+              value: FilterOptions.Favourites,
+            ),
+            const PopupMenuItem(
+              child: Text('All'),
+              value: FilterOptions.All,
+            )
+          ],
+      onSelected: (FilterOptions value) {
+        value == FilterOptions.Favourites
+            ? provider.showFavourites()
+            : provider.showAll();
+      }
+    )
+  ],
+)
+```

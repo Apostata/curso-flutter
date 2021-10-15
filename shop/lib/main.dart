@@ -26,11 +26,11 @@ class MyApp extends StatelessWidget {
         routes: {Routes.PRODUCT_DETAIL: (ctx) => const ProductDetailsPage()},
         onGenerateRoute: (settings) {
           if(settings.name == '/xpto'){
-            return MaterialPageRoute(builder: (_) => ProductsPage());
+            return MaterialPageRoute(builder: (_) => const ProductsPage());
           }
         },
         onUnknownRoute: (settings){
-          return MaterialPageRoute(builder: (_) => ProductsPage());
+          return MaterialPageRoute(builder: (_) => const ProductsPage());
         },
       ),
     );

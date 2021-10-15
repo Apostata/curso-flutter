@@ -31,6 +31,7 @@ class MainDrawer extends StatelessWidget {
             height: 80,
             width: double.infinity,
             padding: EdgeInsets.all(20),
+            // ignore: deprecated_member_use
             color: Theme.of(context).accentColor,
             child: Text(
               'Vamos cozinhar?',

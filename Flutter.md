@@ -389,7 +389,7 @@ MediaQuery é um Inherited Widget. mantem uma ponte para comunicação direta
 como um context no react
 
 
-## Bug com ListView.builder() e elementos da lista Stateful
+## Bug com ListView.builder() e elementos da lista Stateful (Key)
 não relaciona direito o componentes da arvore de componentes com o respectivo elemento da arvore de elemento(arvore de estados)
 Solução:
 Componente Lista:
@@ -417,8 +417,8 @@ class TransactionItem extends StatefulWidget {
 
   const TransactionItem({
     Key key, //recebe a key gerada no builder do listView
-    @required this.transaction,
-    @required this.deleteTransaction,
+    required this.transaction,
+    required this.deleteTransaction,
   }) : super(key: key); // relaciona cada item da lista e passa para o listView
 
   @override

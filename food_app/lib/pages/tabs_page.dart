@@ -48,6 +48,7 @@ class _TabsPageState extends State<TabsPage> {
         body: _pages[_selectedIndex]['page'] as Widget,
         bottomNavigationBar: BottomNavigationBar(
           unselectedItemColor: Colors.white,
+          // ignore: deprecated_member_use
           selectedItemColor: Theme.of(context).accentColor,
           currentIndex: _selectedIndex,
           type: BottomNavigationBarType.shifting,

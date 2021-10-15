@@ -27,6 +27,7 @@ class ExpensesApp extends StatelessWidget {
               ),
             ),
         appBarTheme: AppBarTheme(
+            // ignore: deprecated_member_use
             textTheme: ThemeData.light().textTheme.copyWith(
                   headline6: TextStyle(
                     fontFamily: "OpenSans",
@@ -159,6 +160,7 @@ class _MyHomePage extends State<MyHomePage> with WidgetsBindingObserver {
                 style: TextStyle(
                   fontSize: Theme.of(context)
                           .appBarTheme
+                          // ignore: deprecated_member_use
                           .textTheme
                           .headline6
                           .fontSize *
@@ -174,6 +176,7 @@ class _MyHomePage extends State<MyHomePage> with WidgetsBindingObserver {
               'Despesas Pessoais',
               style: TextStyle(
                 fontSize:
+                    // ignore: deprecated_member_use
                     Theme.of(context).appBarTheme.textTheme.headline6.fontSize *
                         mediaquery.textScaleFactor,
               ),

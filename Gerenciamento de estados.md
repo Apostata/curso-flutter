@@ -94,7 +94,7 @@ class Products with ChangeNotifier {
   }
 }
 ```
-adicionar o provider ao main:
+adicionar o provider ao main. Neste ponto criamos uma instância de `ChangeNotifierProvider` para o o provider `Produtos`.
 ```dart
 ...
 import 'package:provider/provider.dart';
@@ -148,5 +148,241 @@ class ProductsPage extends StatelessWidget {
     );
   }
 }
+```
+
+### Re-renderizando stateless widgets utilizando provider
+quando criamos um item builder passando um `ChangeNotiFierProvider`, este irá verificar qualquer alteração no indice do item em questão e se houver irá re-renderizar o child do item builder, que normalmente é um stateless widget
 
 ```dart
+...
+import 'package:provider/provider.dart';
+import 'package:shop/providers/products.provider.dart';
+import 'Product_item.dart';
+
+class ProductGrid extends StatelessWidget {
+  const ProductGrid({Key? key}) : super(key: key);
+
+
+  @override
+  Widget build(BuildContext context) {
+    final provider = Provider.of<Products>(context);
+    final products = provider.products;
+
+    return GridView.builder(
+        padding: const EdgeInsets.all(10),
+        itemCount: products.length,
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          childAspectRatio: 3 / 2,
+          crossAxisSpacing: 10,
+          mainAxisSpacing: 10,
+        ),
+        itemBuilder: (ctx, i) => ChangeNotifierProvider.value( //passa produto via provider
+          value: products[i],
+          child: const ProductItem(),
+        )
+    );
+  }
+}
+```
+
+### Atualizar somente dados necessários do provider
+No exemplo anterior de produto, somente o icone de coração altera, que é a propriedade `isFavourite` de `Product`
+
+### Usando o Consumer
+para atualizar somente dados necesários. No exemplo anterior de produto, somente o icone de coração altera, que é a propriedade `isFavourite` de `Product` e colocar um `Consumer` somente no widget onde terá as alterações
+
+```dart
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shop/models/product.dart';
+import '../routes//routes.dart' as Routes;
+
+class ProductItem extends StatelessWidget {
+  const ProductItem({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+
+    final product = Provider.of<Product>(
+      context,
+      listen: false
+    );
+
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(10),
+      child: GridTile(
+        child: ...,
+        footer: GridTileBar(
+          title: ...,
+          backgroundColor: Colors.black54,
+          leading: Consumer<Product>( //consumer para alteração apenas do IconButton
+            builder:(contextConsumer, product, _) => 
+              IconButton(
+                icon: Icon( product.isFavotire == true ? Icons.favorite: Icons.favorite_border_outlined),
+                color: Theme.of(context).colorScheme.secondary,
+                onPressed: () => {
+                  product.toggleIsFavorite()
+              },
+            ),
+          ),
+          ...
+        ),
+      ),
+    );
+  }
+}
+```
+
+#### Reutilizando o provider e grid de produtos (Resolvendo problema com Key)
+Como omo iremos reutilizar o grid tanto no catalogo da loja como no carrinho, mas o catalogo pode ou não mostrar os produtos favoritos, iremos refatorar algumas coias
+
+Na página de catalogo, não usamos o provider, apenas no grid, porém é a página que passara o estado para renderizar ou não os favoritos apenas.
+```dart
+import 'package:flutter/material.dart';
+import 'package:shop/Components/Product_grid.dart';
+
+enum FilterOptions { Favourites, All }
+
+class ProductsPage extends StatefulWidget {
+  const ProductsPage({Key? key}) : super(key: key);
+
+  @override
+  State<ProductsPage> createState() => _ProductsPageState();
+}
+
+class _ProductsPageState extends State<ProductsPage> {
+  bool showFavourites = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Minha loja'),
+        actions: [
+          PopupMenuButton(
+              icon: const Icon(Icons.more_vert),
+              itemBuilder: (_) => [
+                    const PopupMenuItem(
+                      child: Text('Only Favourites'),
+                      value: FilterOptions.Favourites,
+                    ),
+                    const PopupMenuItem(
+                      child: Text('All'),
+                      value: FilterOptions.All,
+                    )
+                  ],
+              onSelected: (FilterOptions value) {
+                setState(() {
+                  showFavourites = value == FilterOptions.Favourites;
+                });
+              })
+        ],
+      ),
+      body: ProductGrid(showFavourites),
+    );
+  }
+}
+```
+
+No grid de produtos precisamos passar o boleano se é para mostrar ou não os favoritos e usar o provider para pega-los.
+Como estamos alterando aa lista quando optamos em mostrar ou não os favoritos é **imprescindivel** passar uma `Key` para manter a referência, visto que a quantidade de produtos podem alterar e a lista pode perder a rererência
+
+```dart
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shop/providers/products.provider.dart';
+import 'Product_item.dart';
+
+class ProductGrid extends StatelessWidget {
+  final bool showFavourites;
+  const ProductGrid(this.showFavourites, {Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final provider = Provider.of<Products>(context);
+    final products =
+        showFavourites ? provider.favouriteProducts :  provider.products;
+
+    return GridView.builder(
+      padding: const EdgeInsets.all(10),
+      itemCount: products.length,
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        childAspectRatio: 3 / 2,
+        crossAxisSpacing: 10,
+        mainAxisSpacing: 10,
+      ),
+      itemBuilder: (ctx, i) => ChangeNotifierProvider.value(
+        value: products[i],
+        child: ProductItem(
+          key:ValueKey(products[i].id) //  passando key para o widget ProductItem
+        ),
+      )
+    );
+  }
+}
+```
+
+na componente do produto específico, precisa receber essa key passada no construtor, por via de regra o Flutter recomenda por em todos widgets:
+
+```dart
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shop/models/product.dart';
+import '../routes//routes.dart' as Routes;
+
+class ProductItem extends StatelessWidget {
+  const ProductItem({Key? key}) : super(key: key); // key para o construtor
+
+  @override
+  Widget build(BuildContext context) {
+
+    final product = Provider.of<Product>(
+      context,
+      listen: false
+    );
+
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(10),
+      child: GridTile(
+        child: GestureDetector(
+          child: Image.network(
+            product.imageUrl,
+            fit: BoxFit.cover,
+          ),
+          onTap: () {
+            Navigator.of(context).pushNamed(
+              Routes.PRODUCT_DETAIL,
+              arguments: product,
+            );
+          },
+        ),
+        footer: GridTileBar(
+          title: Text(
+            product.title,
+            textAlign: TextAlign.center,
+          ),
+          backgroundColor: Colors.black54,
+          leading: Consumer<Product>(
+            builder:(contextConsumer, product, _) => 
+              IconButton(
+                icon: Icon( product.isFavotire == true ? Icons.favorite: Icons.favorite_border_outlined),
+                color: Theme.of(context).colorScheme.secondary,
+                onPressed: () => {
+                  product.toggleIsFavorite()
+              },
+            ),
+          ),
+          trailing: IconButton(
+            icon: const Icon(Icons.shopping_cart),
+            color: Theme.of(context).colorScheme.secondary,
+            onPressed: () => {},
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+```

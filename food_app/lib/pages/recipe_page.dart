@@ -66,6 +66,7 @@ class RecipeDetailPage extends StatelessWidget {
                       ),
                       child: Text(recipe.ingredients[index]),
                     ),
+                    // ignore: deprecated_member_use
                     color: Theme.of(context).accentColor,
                   );
                 },
