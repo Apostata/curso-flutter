@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop/Theme/theme.dart';
 import 'package:shop/pages/product_item_page.dart';
+import 'package:shop/providers/cart.provider.dart';
 import 'package:shop/providers/products.provider.dart';
 import './pages/products_page.dart';
 import './routes/routes.dart' as Routes;
@@ -16,8 +17,15 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => Products(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_)=> Products()
+        ),
+        ChangeNotifierProvider(
+          create: (_)=> Cart()
+        ),
+      ],
       child: MaterialApp(
         title: 'Shop',
         theme: theme,

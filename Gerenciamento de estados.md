@@ -234,7 +234,7 @@ class ProductItem extends StatelessWidget {
 }
 ```
 
-#### Reutilizando o provider e grid de produtos (Resolvendo problema com Key)
+#### Refatorando o provider e grid de produtos (Resolvendo problema com Key)
 Como omo iremos reutilizar o grid tanto no catalogo da loja como no carrinho, mas o catalogo pode ou não mostrar os produtos favoritos, iremos refatorar algumas coias
 
 Na página de catalogo, não usamos o provider, apenas no grid, porém é a página que passara o estado para renderizar ou não os favoritos apenas.

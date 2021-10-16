@@ -38,9 +38,11 @@ class TransactionList extends StatelessWidget {
             itemBuilder: (ctx, idx) {
               final transaction = transactions[idx];
               return TransactionItem(
-                key: GlobalObjectKey(
-                    //GlobalObjectKey chava unica dentro do listView para apenas listItems que seja StateFull
-                    transaction),
+                // key: GlobalObjectKey(
+                //     //GlobalObjectKey chava unica dentro do listView para apenas listItems que seja StateFull
+                //     transaction
+                key: ValueKey(transaction.id),
+                
                 transaction: transaction,
                 deleteTransaction: _deleteTransaction,
               );

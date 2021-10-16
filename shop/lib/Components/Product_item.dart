@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop/models/product.dart';
+import 'package:shop/providers/cart.provider.dart';
 import '../routes//routes.dart' as Routes;
 
 class ProductItem extends StatelessWidget {
@@ -8,11 +9,8 @@ class ProductItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    final product = Provider.of<Product>(
-      context,
-      listen: false
-    );
+    final product = Provider.of<Product>(context, listen: false);
+    final cart = Provider.of<Cart>(context, listen: false);
 
     return ClipRRect(
       borderRadius: BorderRadius.circular(10),
@@ -31,24 +29,26 @@ class ProductItem extends StatelessWidget {
         ),
         footer: GridTileBar(
           title: Text(
-            product.title,
+            product.name,
             textAlign: TextAlign.center,
           ),
           backgroundColor: Colors.black54,
           leading: Consumer<Product>(
-            builder:(contextConsumer, product, _) => 
-              IconButton(
-                icon: Icon( product.isFavotire == true ? Icons.favorite: Icons.favorite_border_outlined),
-                color: Theme.of(context).colorScheme.secondary,
-                onPressed: () => {
-                  product.toggleIsFavorite()
-              },
+            builder: (contextConsumer, product, _) => IconButton(
+              icon: Icon(product.isFavotire == true
+                  ? Icons.favorite
+                  : Icons.favorite_border_outlined),
+              color: Theme.of(context).colorScheme.secondary,
+              onPressed: () => {product.toggleIsFavorite()},
             ),
           ),
           trailing: IconButton(
             icon: const Icon(Icons.shopping_cart),
             color: Theme.of(context).colorScheme.secondary,
-            onPressed: () => {},
+            onPressed: () => { 
+              cart.addItem(product),
+              print(cart.productsCount)
+            },
           ),
         ),
       ),
