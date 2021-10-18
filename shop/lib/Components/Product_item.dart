@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop/models/product.dart';
 import 'package:shop/providers/cart.provider.dart';
-import '../routes//routes.dart' as Routes;
+import '../routes//routesPath.dart' as RoutesPath;
 
 class ProductItem extends StatelessWidget {
   const ProductItem({Key? key}) : super(key: key);
@@ -22,7 +22,7 @@ class ProductItem extends StatelessWidget {
           ),
           onTap: () {
             Navigator.of(context).pushNamed(
-              Routes.PRODUCT_DETAIL,
+              RoutesPath.PRODUCT_DETAIL,
               arguments: product,
             );
           },
@@ -47,7 +47,6 @@ class ProductItem extends StatelessWidget {
             color: Theme.of(context).colorScheme.secondary,
             onPressed: () => { 
               cart.addItem(product),
-              print(cart.productsCount)
             },
           ),
         ),

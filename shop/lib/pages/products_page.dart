@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shop/Components/AppbarCartActionButton.dart';
 import 'package:shop/Components/Badge.dart';
 import 'package:shop/Components/Product_grid.dart';
 import 'package:shop/providers/cart.provider.dart';
+import '../routes/routesPath.dart' as RoutesPath;
 
 enum FilterOptions { Favourites, All }
 
@@ -19,6 +21,7 @@ class _ProductsPageState extends State<ProductsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
         title: const Text('Minha loja'),
         actions: [
@@ -40,16 +43,7 @@ class _ProductsPageState extends State<ProductsPage> {
               });
             }
           ),
-          Consumer<Cart>(
-            child: IconButton(
-              onPressed: ()=>{}, 
-              icon: const Icon(Icons.shopping_cart)
-            ),
-            builder:(ctxCart, cart, child) =>  Badge(
-              child: child!, 
-              value: cart.productsCount.toString(),
-            ),
-          )
+          const AppbarCartActionButton()
         ],
       ),
       body: ProductGrid(showFavourites),
