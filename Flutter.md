@@ -252,15 +252,17 @@ A implementação de um stateFull componente (Widget) é um pouco diferente.
 Primeiramente é nessessário criar sua classe customizada, no caso `MyClass`(este nome é só um exemplo) extendendo do tipo `StatefullWidget`.Depois é necessário criar uma classe, com o nome `_MyClassState`(este nome é só um exemplo) de forma privada para gerenciamenteo do esdado que irá extender do tipo `State` genérco do tipo `MyClass`, que será a classe customizada a ser criada.
 
 **NOTA: flutter já possúi otimização para re-renderizar apenas o necessário**
-
+**Pegar uma propriedade passada para o construtor do metodo de statefull widget é necessário usar widegt.{propriedade}, visto que o statefull é composto por 2 classes**
 ```dart
-class _MyClassState_ extends State<MyClass> {
-    ...
-}
 
 class MyClass extends StatefulWidget {
     ...
 }
+class _MyClassState_ extends State<MyClass> {
+    ...
+    nesta classe iremos renderizar e gerenciar os estados
+}
+
 ```
 
 Como a renderização depende do estado, neste caso, então todo o metodo `build` será implementado na classe `MyClassState` criada para o gerenciamento do estado.
@@ -268,21 +270,31 @@ Então na classe principal, que seria o `MyClass` criar um metodo `createState`,
 `MyClassState`. Esta função retornará apenas uma instancia da classe `MyClassState`.
 
 ```dart
-class _MyClassState_ extends State<MyClass> {
-    ...
-}
-
 class MyClass extends StatefulWidget {
     _MyClassState_ createState() {
         return _MyClassState_();
     }
 }
+
+class _MyClassState_ extends State<MyClass> {
+    ...
+}
+
+
 ```
 
 E então para alterar o estado da classe `MyClass`. basta usar o metoto `setState()` envolvendo a variavel a ser alterada.
 exemplo da aplicação completa
 
 ```dart
+
+class MyClass extends StatefulWidget {
+  @override
+  _MyClassState createState() {
+    return _MyClassState();
+  }
+}
+
 class _MyClassState extends State<MyClass> {
   int _perguntaSelecionada_ = 0;
 
@@ -334,24 +346,8 @@ class _MyClassState extends State<MyClass> {
   }
 }
 
-class MyClass extends StatefulWidget {
-  @override
-  _MyClassState createState() {
-    return _MyClassState();
-  }
-}
 ```
 #### Subdividindo em componentes(Widgets) menores
-
-#### Widget Container
-atributos 
-    child
-    padding
-    border
-    margin
-tirando o child o resto é como no css na web
-
-**NOTA: alguns componentes tem padding e outros não. Para aplicar o padding em componentes que não tenham, basta envolver o componente com o Widget Padding()**
 
 ## Baixando e instalando pacotes externos
 1. Método 1 - alterando o `pubscpec.yaml`
@@ -369,7 +365,8 @@ tirando o child o resto é como no css na web
 * setState() -> sempre chama o build()
 * didUpdateWidget() -> quando altera o componente. chama o build(), é possível verificar as diferenças entre o widget e o oldWidget
 * dispose() -> similar ao didUmmont, quando o componente sai da tela
-  
+
+
 ## Ciclos de vida da aplicação
 * inativo -> app inatico, nenhuma etrado do usuário é recebida, quando app é minimizado
 * paused -> app não visível, executando em background

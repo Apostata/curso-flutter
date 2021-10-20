@@ -12,6 +12,14 @@ Gerá um header, body e footer
 
 ## Layout
 - Container
+  atributos 
+      child
+      padding
+      border
+      margin
+  tirando o child o resto é como no css na web
+
+**NOTA: alguns componentes tem padding e outros não. Para aplicar o padding em componentes que não tenham, basta envolver o componente com o Widget Padding()**
 - Row
 - Column
 - LayoutBuilder - Mais complexo, para pegar as dimensões do componente pai para considerar responsividade
