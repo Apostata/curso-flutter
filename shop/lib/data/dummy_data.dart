@@ -33,3 +33,5 @@ final dummyProducts = [
         'https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Cast-Iron-Pan.jpg/1024px-Cast-Iron-Pan.jpg',
   ),
 ];
+
+// bola imageUrl = https://cdn.ecvol.com/s/www.querocase.com.br/produtos/topsocket-bola-de-futebol/z/0.png?v=0

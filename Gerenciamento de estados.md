@@ -189,8 +189,18 @@ class ProductGrid extends StatelessWidget {
 ### Atualizar somente dados necessários do provider
 No exemplo anterior de produto, somente o icone de coração altera, que é a propriedade `isFavourite` de `Product`
 
+### Propriedade listen
+o listen false serve para quando você não quer escutar as modificações no provider(dentro do metoto build do widget) ou para quando você chama o provider fora do metodo build do widget.
+```dart
+final product = Provider.of<Product>(
+      context,
+      listen: false
+    );
+```
+
 ### Usando o Consumer
-para atualizar somente dados necesários. No exemplo anterior de produto, somente o icone de coração altera, que é a propriedade `isFavourite` de `Product` e colocar um `Consumer` somente no widget onde terá as alterações
+para atualizar somente dados necesários. No exemplo anterior de produto, somente o icone de coração altera, que é a propriedade `isFavourite` de `Product` e colocar um `Consumer` somente no widget onde terá as alterações.
+
 
 ```dart
 import 'package:flutter/material.dart';

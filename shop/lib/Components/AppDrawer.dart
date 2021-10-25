@@ -23,10 +23,18 @@ class AppDrawer extends StatelessWidget {
           ),
           const Divider(),
           ListTile(
-            leading: const Icon(Icons.shop),
+            leading: const Icon(Icons.shopping_basket),
             title: const Text('Meus Pedidos'),
             onTap: () {
               Navigator.of(context).pushReplacementNamed(RoutesPath.ORDERS);
+            },
+          ),
+          const Divider(),
+          ListTile(
+            leading: const Icon(Icons.edit),
+            title: const Text('Gerenciar Produtos'),
+            onTap: () {
+              Navigator.of(context).pushReplacementNamed(RoutesPath.PRODUCTS);
             },
           )
         ],

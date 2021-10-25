@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop/Theme/theme.dart';
 import 'package:shop/providers/mainProviders.dart';
-import 'routes/routes.dart' show routes, onGenerateRoutes, onUnknownRoute;
+import 'routes/routes.dart' show onGenerateRoutes, onUnknownRoute;
 
 void main() {
   runApp(const MyApp());
@@ -19,9 +19,9 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Shop',
         theme: theme,
-        // home: const ProductsPage(),
         debugShowCheckedModeBanner: false,
-        routes: routes,
+        initialRoute: '/',
+        // routes: routes,
         onGenerateRoute: onGenerateRoutes,
         onUnknownRoute: onUnknownRoute,
       ),

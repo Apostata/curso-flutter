@@ -453,5 +453,10 @@ class _TransactionItemState extends State<TransactionItem> {
 ```
 
 ## Mixin 
-adicionar função ao código?
-ver mais adiante
+ver `Dart.md`
+
+## Scaffold.of(context)
+Usamos o `Scaffold.of(contex)`, dizemos ao código para retornar a instancia do scafold, ou seja, da página em que estamos, indepenentemente do componente em que estamos.
+
+## ScafoldMessenger.of(context)
+Para mostrar o snackBar, usamos o `ScafoldMessenger.of(context).showSnackBar()`
