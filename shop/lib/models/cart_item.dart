@@ -9,6 +9,16 @@ class CartItem {
     required this.productId,
     required this.name,
     required this.quantity,
-    required this.price,  
+    required this.price,
   });
+
+  Map<String, Object> get itemToJson {
+    return {
+      'id': id,
+      'productId': productId,
+      'name': name,
+      'quantity': quantity,
+      'price': price,
+    };
+  }
 }

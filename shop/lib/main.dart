@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 import 'package:shop/Theme/theme.dart';
 import 'package:shop/providers/mainProviders.dart';
 import 'routes/routes.dart' show onGenerateRoutes, onUnknownRoute;
-
-void main() {
+import 'configure_nonweb.dart' if (dart.library.html) 'configure_web.dart'; // se for web remove # da url
+Future main() async {await dotenv.load(fileName: ".env");
+  configureApp();
   runApp(const MyApp());
 }
 

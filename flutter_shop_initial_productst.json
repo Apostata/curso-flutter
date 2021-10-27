@@ -1,0 +1,32 @@
+{
+  "products" : {
+    "-MmuWA6zzwEVIRw4G-k2" : {
+      "description" : "Uma camiseta comunista ;P",
+      "imageUrl" : "https://cdn.pixabay.com/photo/2016/10/02/22/17/red-t-shirt-1710578_1280.jpg",
+      "isFavorite" : false,
+      "name" : "Camiseta Vermelha",
+      "price" : 30
+    },
+    "-MmuWS9CFl2MDEp3t7_b" : {
+      "description" : "Uma calça comum",
+      "imageUrl" : "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Trousers%2C_dress_%28AM_1960.022-8%29.jpg/512px-Trousers%2C_dress_%28AM_1960.022-8%29.jpg",
+      "isFavorite" : false,
+      "name" : "Calças",
+      "price" : 56.98
+    },
+    "-MmuWigS23l6qLYQAX16" : {
+      "description" : "Um cachecol amarelo",
+      "imageUrl" : "https://live.staticflickr.com/4043/4438260868_cc79b3369d_z.jpg",
+      "isFavorite" : false,
+      "name" : "Cachecol Amarelo",
+      "price" : 18.65
+    },
+    "-MmuWsOdBsyDNhWxXGYR" : {
+      "description" : "Uma panela comum",
+      "imageUrl" : "https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Cast-Iron-Pan.jpg/1024px-Cast-Iron-Pan.jpg",
+      "isFavorite" : false,
+      "name" : "Panela",
+      "price" : 43.23
+    }
+  }
+}

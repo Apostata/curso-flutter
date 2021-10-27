@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shop/Components/Cart_buy_button.dart';
 import 'package:shop/Components/Cart_item.dart';
 import 'package:shop/providers/cart.provider.dart';
-import 'package:shop/providers/orders.provider.dart';
 
 class CartPage extends StatelessWidget {
   const CartPage({Key? key}) : super(key: key);
@@ -47,30 +47,18 @@ class CartPage extends StatelessWidget {
                         ),
                       )),
                   const Spacer(),
-                  TextButton(
-                    onPressed: () => {
-                      Provider.of<Orders>(context, listen: false).addOrder(cart),
-                      cart.cleanItems(),
-                    },
-                    child: Text(
-                      'COMPRAR',
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
-                    ),
-                  ),
+                  CartBuyButton(cart: cart)
                 ],
               ),
             ),
           ),
           Expanded(
             child: ListView.builder(
-              itemCount: cartItems.length,
-              itemBuilder: (lvbCtx, i) => CartItemWidget(
-                cartItems[i],
-                key: ValueKey(cartItems[i].id), 
-              )
-            ),
+                itemCount: cartItems.length,
+                itemBuilder: (lvbCtx, i) => CartItemWidget(
+                      cartItems[i],
+                      key: ValueKey(cartItems[i].id),
+                    )),
           ),
         ],
       ),

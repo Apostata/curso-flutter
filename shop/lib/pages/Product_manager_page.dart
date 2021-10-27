@@ -8,6 +8,10 @@ import '../routes/routesPath.dart' as RoutesPath;
 class ProductManagerPage extends StatelessWidget {
   const ProductManagerPage({Key? key}) : super(key: key);
 
+  Future<void> _refreshProducts(BuildContext context){
+    return Provider.of<Products>(context, listen: false).getProducts();
+  }
+
   @override
   Widget build(BuildContext context) {
     final Products products = Provider.of(context);
@@ -18,27 +22,29 @@ class ProductManagerPage extends StatelessWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.add),
-            onPressed: (){
+            onPressed: () {
               Navigator.of(context).pushNamed('${RoutesPath.PRODUCTS}/new');
-            }, 
+            },
           )
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 15,
-          vertical: 5,
-        ),
-        child: ListView.builder(
-            itemCount: products.itemsCount,
-            itemBuilder: (listCtx, i) =>
-                Column(
-                  children: [
-                    ProductManagerItem(product: products.products[i]),
-                    const Divider()
-                  ],
-                ),
+      body: RefreshIndicator(
+        onRefresh: ()=> _refreshProducts(context),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 15,
+            vertical: 5,
           ),
+          child: ListView.builder(
+            itemCount: products.itemsCount,
+            itemBuilder: (listCtx, i) => Column(
+              children: [
+                ProductManagerItem(product: products.products[i]),
+                const Divider()
+              ],
+            ),
+          ),
+        ),
       ),
       drawer: const AppDrawer(),
     );

@@ -123,6 +123,8 @@ Atualiza a referência na arvore de elementos(não recria ela)
 ## Widget (componente)
 Widget é o componente padrão do Flutter como no react usar um componente de classe ou funcional, neste casso é chamado de Widget  
 
+**NOTA: qualquer metodo que reqerer o context, precisará receber como parametro um `BuildContext context` ou seja uma variavek context do tipo BuiuildContext**
+
 ### metodo build
 é o metodo que renderiza o componente, como o metodo render do React em componentes de classe.
 

@@ -81,6 +81,43 @@ podem ser inferidos também
 
 ### Tipo Future
 Para trabalhar com asícronismo, como a Promise do js
+ Exemplo
+ ```dart
+
+ main(){
+   futureSum(8, 4)
+    .then((r1)=>print(r1));
+    .catchError((error)=> print(error))
+   int r2 = soma(7, 3);
+   print(r2);
+ }
+```
+ no caso acima o resultado será:
+ 10
+ 12
+
+ ...ou
+
+```dart
+main() async {
+   final somaFuturo = await futureSum(8, 4)
+   int r2 = soma(7, 3);
+   print(r2);
+ }
+
+int soma(int a, int b){
+  return a + b;
+}
+
+Future<int> futureSum(int a, int b){
+  return Future(()=> a + b);
+}
+ ```
+no caso acima o resultado será um poco diferente
+será:
+12
+10
+pois com async await, ele vai esperar retornar a resposta do primeiro para continar a execução.
 ##### Lists
  - List(ou array) aceita um tipo Lista de outros tipos, aceita valore repetidos e possuem indice numérico
 ```dart

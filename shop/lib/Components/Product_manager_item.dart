@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shop/errors/http_exception.dart';
 import 'package:shop/models/product.dart';
 import 'package:shop/providers/products.provider.dart';
 import '../routes/routesPath.dart' as RoutesPath;
@@ -10,6 +11,7 @@ class ProductManagerItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final msg = ScaffoldMessenger.of(context);
     return ListTile(
       title: Text(product.name),
       leading: CircleAvatar(
@@ -33,7 +35,7 @@ class ProductManagerItem extends StatelessWidget {
             IconButton(
               icon: const Icon(Icons.delete),
               color: Theme.of(context).errorColor,
-              onPressed: () async{
+              onPressed: () async {
                 final deleteProduct = await showDialog<bool>(
                   context: context,
                   builder: (modalCtx) => AlertDialog(
@@ -52,13 +54,17 @@ class ProductManagerItem extends StatelessWidget {
                           onPressed: () {
                             Navigator.of(modalCtx).pop(true);
                             //ou chamar a exclusão dentro
-                          }
-                        ),
+                          }),
                     ],
                   ),
                 );
-                if(deleteProduct ?? false) {
-                  Provider.of<Products>(context, listen: false).removeProduct(product.id);
+                if (deleteProduct ?? false) {
+                  try {
+                    await Provider.of<Products>(context, listen: false)
+                        .removeProduct(product.id);
+                  } on HttpException catch (error) {
+                    msg.showSnackBar(SnackBar(content: Text(error.toString())));
+                  }
                 }
               },
             ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shop/errors/http_exception.dart';
 import 'package:shop/models/product.dart';
 import 'package:shop/providers/cart.provider.dart';
 import '../routes//routesPath.dart' as RoutesPath;
@@ -39,7 +40,18 @@ class ProductItem extends StatelessWidget {
                   ? Icons.favorite
                   : Icons.favorite_border_outlined),
               color: Theme.of(context).colorScheme.secondary,
-              onPressed: () => {product.toggleIsFavorite()},
+              onPressed: () async {
+                try {
+                  await product.toggleIsFavorite();
+                } on HttpException catch (error) {
+                   ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(error.toString())
+                    )
+                  );
+                }
+              },
             ),
           ),
           trailing: IconButton(
@@ -48,19 +60,17 @@ class ProductItem extends StatelessWidget {
             onPressed: () => {
               cart.addItem(product),
               ScaffoldMessenger.of(context).hideCurrentSnackBar(),
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content:
-                      Text('Produto "${product.name}" adicionado com sucesso!'),
-                  duration: const Duration(seconds: 3),
-                  action: SnackBarAction(
-                    label: 'DESFAZER',
-                    onPressed: () {
-                      cart.removeSingleItem(product.id);
-                    },
-                  ),
-                )
-              )
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content:
+                    Text('Produto "${product.name}" adicionado com sucesso!'),
+                duration: const Duration(seconds: 3),
+                action: SnackBarAction(
+                  label: 'DESFAZER',
+                  onPressed: () {
+                    cart.removeSingleItem(product.id);
+                  },
+                ),
+              ))
             },
           ),
         ),

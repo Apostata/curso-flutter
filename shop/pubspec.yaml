@@ -33,7 +33,11 @@ dependencies:
   intl: ^0.17.0
   cupertino_icons: ^1.0.2
   regex_router: ^2.0.0
-
+  http: ^0.13.4
+  flutter_dotenv: ^5.0.2
+  flutter_web_plugins:
+    sdk: flutter
+  dio: ^4.0.1
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -58,6 +62,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - lib/data/dummy_data.json
+    - .env
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
