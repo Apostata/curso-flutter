@@ -396,3 +396,70 @@ class ProductItem extends StatelessWidget {
 }
 
 ```
+
+### Usando multiplos providers
+```dart
+..
+import 'package:provider/provider.dart';
+...
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => Auth()),
+        ChangeNotifierProvider(create: (_) => Products()),
+        ChangeNotifierProvider(create: (_) => Cart()),
+        ChangeNotifierProvider(create: (_) => Orders()),
+      ],
+      child: MaterialApp(
+        ...
+      ),
+    );
+  }
+}
+```
+
+### Provider dependente de outro
+Quando um provider depende de outro é legal também passar o estado antigo do que precisa que atualize no provider dependente
+```dart
+..
+import 'package:provider/provider.dart';
+...
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => Auth()),
+        ChangeNotifierProxyProvider<Auth, Products>(
+          create: (_) => Products('', []), //qaundo inicia o app
+          update: (ctx, auth, previous) { //quanto recebe novo valor de Auth
+            return Products(auth.token ?? '', previous?.products ?? []);
+          },
+        ),
+        ChangeNotifierProvider(create: (_) => Cart()),
+        ChangeNotifierProvider(create: (_) => Orders()),
+      ],
+      child: MaterialApp(
+        ...
+      ),
+    );
+  }
+}
+```
+

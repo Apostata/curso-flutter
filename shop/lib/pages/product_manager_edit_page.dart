@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:shop/models/product.dart';
+import 'package:shop/providers/product.dart';
 import 'package:shop/providers/products.provider.dart';
 import '../routes/routesPath.dart' as RoutesPath;
 
@@ -92,7 +92,6 @@ class _ProductManagerEditState extends State<ProductManagerEdit> {
           .saveProPrduct(_formData);
       Navigator.of(context).pop();
     } catch (error) {
-      print(error);
       await showDialog(
           context: context,
           builder: (modalCtx) => AlertDialog(

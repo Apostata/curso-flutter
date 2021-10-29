@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop/errors/http_exception.dart';
-import 'package:shop/models/product.dart';
+import 'package:shop/providers/product.dart';
 import 'package:shop/providers/products.provider.dart';
 import '../routes/routesPath.dart' as RoutesPath;
 

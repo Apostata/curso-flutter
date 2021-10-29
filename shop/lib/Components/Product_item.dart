@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop/errors/http_exception.dart';
-import 'package:shop/models/product.dart';
+import 'package:shop/providers/product.dart';
+import 'package:shop/providers/auth.provider.dart';
 import 'package:shop/providers/cart.provider.dart';
 import '../routes//routesPath.dart' as RoutesPath;
 
@@ -12,6 +13,7 @@ class ProductItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final product = Provider.of<Product>(context, listen: false);
     final cart = Provider.of<Cart>(context, listen: false);
+    final auth = Provider.of<Auth>(context, listen:false);
 
     return ClipRRect(
       borderRadius: BorderRadius.circular(10),
@@ -42,7 +44,7 @@ class ProductItem extends StatelessWidget {
               color: Theme.of(context).colorScheme.secondary,
               onPressed: () async {
                 try {
-                  await product.toggleIsFavorite();
+                  await product.toggleIsFavorite(auth.token ?? '', auth.userId ?? '');
                 } on HttpException catch (error) {
                    ScaffoldMessenger.of(context).hideCurrentSnackBar();
                   ScaffoldMessenger.of(context).showSnackBar(

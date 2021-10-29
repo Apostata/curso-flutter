@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop/Components/AppbarCartActionButton.dart';
-import 'package:shop/models/product.dart';
+import 'package:shop/providers/product.dart';
 import 'package:shop/providers/cart.provider.dart';
 
 class ProductDetailsPage extends StatelessWidget {

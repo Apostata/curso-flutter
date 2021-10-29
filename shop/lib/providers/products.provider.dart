@@ -2,11 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:dio/dio.dart';
 import 'package:shop/errors/http_exception.dart';
-import 'package:shop/models/product.dart';
+import 'package:shop/providers/product.dart';
 
 class Products with ChangeNotifier {
-  final List<Product> _products = [];
-  final _url = '${dotenv.env['API_BASE']}/products';
+  List<Product> _products;
+  final _urlproducts = '${dotenv.env['API_BASE']}/products';
+  final _urlUserFavorites = '${dotenv.env['API_BASE']}/userFavorites';
+
+  final String _token;
+  final String _userId;
+
+  Products([this._token = '', this._userId = '', this._products = const []]);
 
   List<Product> get products {
     return [..._products];
@@ -17,23 +23,35 @@ class Products with ChangeNotifier {
   }
 
   Future<void> getProducts() async {
-    _products.clear();
-    final response = await Dio().get('$_url.json');
-    if (response.data == null) return;
-    //Map<String, dynamic> data = json.decode(response.body);
-    response.data.forEach((prodId, prodData) {
-      _products.add(
-        Product(
-          id: prodId,
-          name: prodData['name'],
-          description: prodData['description'],
-          price: double.parse(prodData['price'].toString()),
-          imageUrl: prodData['imageUrl'],
-          isFavotire: prodData['isFavorite'],
-        ),
+    List<Product> products = [];
+    try {
+      final response = await Dio().get('$_urlproducts.json?auth=$_token');
+      if (response.data == null) return;
+      //Map<String, dynamic> data = json.decode(response.body);
+
+      final favoritesResp = await Dio().get(
+        '$_urlUserFavorites/$_userId.json?auth=$_token',
       );
-    });
-    notifyListeners();
+
+      response.data.forEach((prodId, prodData) {
+        final bool isFavourite = favoritesResp.data[prodId] ?? false;
+        
+        products.add(
+          Product(
+              id: prodId,
+              name: prodData['name'],
+              description: prodData['description'],
+              price: double.parse(prodData['price'].toString()),
+              imageUrl: prodData['imageUrl'],
+              isFavotire: isFavourite
+            ),
+        );
+      });
+      _products = products;
+      notifyListeners();
+    } catch (error) {
+      print(error);
+    }
   }
 
   List<Product> get favouriteProducts {
@@ -60,7 +78,7 @@ class Products with ChangeNotifier {
 
   Future<void> addProduct(Product product) async {
     final response = await Dio().post(
-      '$_url.json',
+      '$_urlproducts.json?auth=$_token',
       data: {
         'name': product.name,
         'description': product.description,
@@ -90,7 +108,7 @@ class Products with ChangeNotifier {
     if (productIndex < 0) return;
     // _products[productIndex] = product; //update
     await Dio().patch(
-      '$_url/${product.id}.json',
+      '$_urlproducts/${product.id}.json?auth=$_token',
       data: {
         'name': product.name,
         'description': product.description,
@@ -111,10 +129,9 @@ class Products with ChangeNotifier {
     _products.removeWhere((prod) => prod.id == productId);
     notifyListeners();
     final dio = Dio();
-    Response<void>? response;
     try {
-      response = await dio.delete(
-        '$_url/$productId.json',
+      await dio.delete(
+        '$_urlproducts/$productId.json?auth=$_token',
       );
     } catch (error) {
       _products.insert(productIndex, product);

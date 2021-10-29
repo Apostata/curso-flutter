@@ -1,0 +1,74 @@
+{
+  "orders" : {
+    "loXR5YDFsvdjF5N89NVDeXt6i6W2" : {
+      "-Mn8xR3vVzz3q8DrZUN4" : {
+        "date" : "2021-10-28T23:51:38.045477",
+        "products" : [ {
+          "id" : "0.40762863816967043",
+          "name" : "Camiseta",
+          "price" : 30.0,
+          "productId" : "-MmuWA6zzwEVIRw4G-k2",
+          "quantity" : 1
+        }, {
+          "id" : "0.37538312961149234",
+          "name" : "Calças",
+          "price" : 56.98,
+          "productId" : "-MmuWS9CFl2MDEp3t7_b",
+          "quantity" : 1
+        } ],
+        "total" : 86.97999999999999
+      },
+      "-Mn8yunAbbi4KTgRyFUC" : {
+        "date" : "2021-10-28T23:58:06.090499",
+        "products" : [ {
+          "id" : "0.11488060356040042",
+          "name" : "Cachecol",
+          "price" : 18.65,
+          "productId" : "-MmuWigS23l6qLYQAX16",
+          "quantity" : 1
+        }, {
+          "id" : "0.06330656132013879",
+          "name" : "Panela",
+          "price" : 43.23,
+          "productId" : "-MmuWsOdBsyDNhWxXGYR",
+          "quantity" : 1
+        } ],
+        "total" : 61.879999999999995
+      }
+    }
+  },
+  "products" : {
+    "-MmuWA6zzwEVIRw4G-k2" : {
+      "description" : "Uma camiseta comunista ;P",
+      "imageUrl" : "https://cdn.pixabay.com/photo/2016/10/02/22/17/red-t-shirt-1710578_1280.jpg",
+      "name" : "Camiseta",
+      "price" : 30
+    },
+    "-MmuWS9CFl2MDEp3t7_b" : {
+      "description" : "Uma calça comum",
+      "imageUrl" : "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Trousers%2C_dress_%28AM_1960.022-8%29.jpg/512px-Trousers%2C_dress_%28AM_1960.022-8%29.jpg",
+      "name" : "Calças",
+      "price" : 56.98
+    },
+    "-MmuWigS23l6qLYQAX16" : {
+      "description" : "Um cachecol amarelo",
+      "imageUrl" : "https://live.staticflickr.com/4043/4438260868_cc79b3369d_z.jpg",
+      "name" : "Cachecol",
+      "price" : 18.65
+    },
+    "-MmuWsOdBsyDNhWxXGYR" : {
+      "description" : "Uma panela comum",
+      "imageUrl" : "https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Cast-Iron-Pan.jpg/1024px-Cast-Iron-Pan.jpg",
+      "name" : "Panela",
+      "price" : 43.23
+    }
+  },
+  "userFavorites" : {
+    "loXR5YDFsvdjF5N89NVDeXt6i6W2" : {
+      "-MmuWA6zzwEVIRw4G-k2" : true,
+      "-MmuWS9CFl2MDEp3t7_b" : true,
+      "-MmuWigS23l6qLYQAX16" : false,
+      "-MmuWsOdBsyDNhWxXGYR" : false
+    }
+  }
+}

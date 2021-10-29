@@ -9,7 +9,8 @@ class Product with ChangeNotifier {
   final String description;
   final double price;
   final String imageUrl;
-  final _url = '${dotenv.env['API_BASE']}/products';
+
+  final _urlUserFavorites = '${dotenv.env['API_BASE']}/userFavorites';
 
   bool isFavotire;
 
@@ -19,14 +20,18 @@ class Product with ChangeNotifier {
       required this.description,
       required this.price,
       required this.imageUrl,
-      this.isFavotire = false});
+      this.isFavotire = false,
+      });
 
-  Future<void> toggleIsFavorite() async {
+  Future<void> toggleIsFavorite(String token, String userId) async {
     isFavotire = !isFavotire;
     notifyListeners();
 
     try{
-      await Dio().patch('$_url/$id.json', data: {'isFavorite': isFavotire});
+      await Dio().put(
+        '$_urlUserFavorites/$userId/$id.json?auth=$token', 
+        data: isFavotire
+      );
     } catch(error){
       isFavotire = !isFavotire;
       notifyListeners();

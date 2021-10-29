@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:regex_router/regex_router.dart';
+import 'package:shop/pages/AuthOrHomePage.dart';
+// import 'package:shop/pages/Auth_page.dart';
 import 'package:shop/pages/Product_manager_page.dart';
 import 'package:shop/pages/cart_page.dart';
-import 'package:shop/pages/orders_page.dart';
+import 'package:shop/pages/orders_page_future.dart';
 import 'package:shop/pages/product_item_page.dart';
 import 'package:shop/pages/product_manager_edit_page.dart';
 import 'package:shop/pages/products_page.dart';
 import 'package:shop/routes/routesPath.dart' as RoutesPath;
 
 final router = RegexRouter.create({
-  RoutesPath.HOME: (ctx, _) => const ProductsPage(),
+  // RoutesPath.AUTH: (ctx, _) => const AuthPage(),
+  RoutesPath.AUTH_OR_HOME: (ctx, _) => const AuthOrHomePage(),
   RoutesPath.PRODUCT_DETAIL: (ctx, _) => const ProductDetailsPage(),
   RoutesPath.CART: (ctx, _) => const CartPage(),
-  RoutesPath.ORDERS: (ctx, _) => const OrdersPage(),
+  RoutesPath.ORDERS: (ctx, _) => const OrdersPageFuture(),
   RoutesPath.PRODUCTS: (ctx, _) => const ProductManagerPage(),
   '${RoutesPath.PRODUCTS}/:id': (ctx, args) => ProductManagerEdit(id: args['id'])
 });

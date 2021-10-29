@@ -494,3 +494,19 @@ main(List<String> args) {
 }
 
 ```
+
+### Cascade operator
+funciona similar ao curring do javascript em questões de retorno da função
+
+```dart
+void main(){
+  Lint<int> a = [1, 2, 3];
+  a.add(4)
+  a.add(5)
+  a.add(6)
+
+  // ou usando o cascade operator
+  a.add(4)..add(5)..add(6)
+
+}
+```
