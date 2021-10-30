@@ -22,34 +22,35 @@ class Orders with ChangeNotifier {
 
   Future<void> getOrders() async {
     List<Order> items = [];
-    // try {
-    final response = await Dio().get('$_urlOrders/$_userId.json?auth=$_token');
-    if (response.data != null) {
-      response.data.forEach((orderId, orderData) {
-        final id = orderId;
-        items.add(
-          Order(
-            id: id,
-            total: orderData['total'],
-            products: (orderData['products'] as List<dynamic>)
-                .map((cartItem) => CartItem(
-                      id: cartItem['id'],
-                      productId: cartItem['productId'],
-                      name: cartItem['name'],
-                      quantity: cartItem['quantity'],
-                      price: cartItem['price'],
-                    ))
-                .toList(),
-            date: DateTime.parse(orderData['date']),
-          ),
-        );
-      });
+    try {
+      final response =
+          await Dio().get('$_urlOrders/$_userId.json?auth=$_token');
+      if (response.data != null) {
+        response.data.forEach((orderId, orderData) {
+          final id = orderId;
+          items.add(
+            Order(
+              id: id,
+              total: orderData['total'],
+              products: (orderData['products'] as List<dynamic>)
+                  .map((cartItem) => CartItem(
+                        id: cartItem['id'],
+                        productId: cartItem['productId'],
+                        name: cartItem['name'],
+                        quantity: cartItem['quantity'],
+                        price: cartItem['price'],
+                      ))
+                  .toList(),
+              date: DateTime.parse(orderData['date']),
+            ),
+          );
+        });
+      }
+      _items = items.reversed.toList();
+      notifyListeners();
+    } catch (error) {
+      print(error);
     }
-    _items = items.reversed.toList();
-    notifyListeners();
-    // } catch (error) {
-    //   print(error);
-    // }
   }
 
   int get itemsCount {

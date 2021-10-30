@@ -24,21 +24,19 @@ class OrdersPageFuture extends StatelessWidget {
             return const Center(child: CircularProgressIndicator());
           } else if (snapshot.error != null) {
             return const Center(child: Text('Ocorreu um erro'));
-          }else if (!snapshot.hasData) {
-            return const Center(child: Text('Nenhum pedido!'));
-          } 
-          else {
+          } else {
             return RefreshIndicator(
               onRefresh: () => _refreshOrders(context),
-              child: Consumer<Orders>(
-                builder: (context, orders, _) => ListView.builder(
+              child: Consumer<Orders>(builder: (context, orders, _){
+                if(orders.items.isEmpty) return const Center(child: Text('Nenhum pedido!'));
+                return ListView.builder(
                   itemCount: orders.items.length,
                   itemBuilder: (builderContext, i) => OrderWidget(
                     order: orders.items[i],
                     key: ValueKey(orders.items[i].id),
                   ),
-                ),
-              ),
+                );
+              }),
             );
           }
         },

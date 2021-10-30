@@ -1,7 +1,9 @@
+import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shop/errors/auth_exception.dart';
+import 'package:shop/store/store.dart';
 
 final ENV = dotenv.env;
 const _singupAttribute = ':signUp';
@@ -12,6 +14,7 @@ class Auth with ChangeNotifier {
   String? _email;
   String? _userId;
   DateTime? _expirationDate;
+  Timer? _logoutTimer;
 
   bool get isAuth {
     final isValidDate = _expirationDate?.isAfter(DateTime.now()) ?? false;
@@ -45,11 +48,68 @@ class Auth with ChangeNotifier {
       _email = response.data['email'];
       _expirationDate = DateTime.now()
           .add(Duration(seconds: int.parse(response.data['expiresIn'])));
+
+      Store.saveMap('userData', {
+        'token': _token,
+        'email': _email,
+        'userId': _userId,
+        'expirationDate': _expirationDate!.toIso8601String()
+      });
+
+      _autoLogout();
       notifyListeners();
     } on DioError catch (e) {
-      final response = (e.response) as Map<String, dynamic>;
-      final message = response['error']['message'];
+      final response = (e.response);
+      final message =
+          response?.data['error']['message'] ?? 'Erro na authenticação!';
       throw AuthException(message);
     }
+  }
+
+  void logout() {
+    
+    Store.remove('userData').then((_){
+    _email = null;
+    _expirationDate = null;
+    _token = null;
+    _userId = null;
+    _clearLogoutTimer();
+    notifyListeners();
+  });
+    
+  }
+
+  void _clearLogoutTimer() {
+    _logoutTimer?.cancel();
+    _logoutTimer = null;
+  }
+
+  Future<void> tryAutoLogin() async {
+    if (isAuth) {
+      return;
+    }
+    final userData = await Store.getMap('userData');
+    if (userData.isEmpty) {
+      return;
+    }
+
+    final expirationDate = DateTime.parse(userData['expirationDate']);
+    if (expirationDate.isBefore(DateTime.now())) {
+      return;
+    }
+
+    _token = userData['token'];
+    _email = userData['email'];
+    _userId = userData['userId'];
+    _expirationDate = expirationDate;
+
+    _autoLogout();
+    notifyListeners();
+  }
+
+  void _autoLogout() {
+    _clearLogoutTimer();
+    final timeToLogout = _expirationDate?.difference(DateTime.now()).inSeconds;
+    _logoutTimer = Timer(Duration(seconds: timeToLogout ?? 0), logout);
   }
 }
