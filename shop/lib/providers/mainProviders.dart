@@ -3,7 +3,7 @@ import 'package:provider/single_child_widget.dart';
 import 'package:shop/providers/auth.provider.dart';
 import 'package:shop/providers/orders.provider.dart';
 import 'package:shop/providers/products.provider.dart';
-import 'cart.provider.dart';
+import 'package:shop/providers/cart.provider.dart';
 
 List<SingleChildWidget> providers = [
   ChangeNotifierProvider(create: (_) => Auth()),

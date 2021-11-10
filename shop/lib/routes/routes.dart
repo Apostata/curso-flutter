@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:regex_router/regex_router.dart';
 import 'package:shop/pages/AuthOrHomePage.dart';
-// import 'package:shop/pages/Auth_page.dart';
 import 'package:shop/pages/Product_manager_page.dart';
 import 'package:shop/pages/cart_page.dart';
 import 'package:shop/pages/orders_page_future.dart';
@@ -14,6 +13,7 @@ final router = RegexRouter.create({
   // RoutesPath.AUTH: (ctx, _) => const AuthPage(),
   RoutesPath.AUTH_OR_HOME: (ctx, _) => const AuthOrHomePage(),
   RoutesPath.PRODUCT_DETAIL: (ctx, _) => const ProductDetailsPage(),
+  // '${RoutesPath.PRODUCT_DETAIL}/:id': (ctx, args) => ProductDetailsPage(id: args['id']),
   RoutesPath.CART: (ctx, _) => const CartPage(),
   RoutesPath.ORDERS: (ctx, _) => const OrdersPageFuture(),
   RoutesPath.PRODUCTS: (ctx, _) => const ProductManagerPage(),

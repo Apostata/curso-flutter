@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shop/helpers/Custom_route_transition.dart';
+import 'package:shop/pages/orders_page.dart';
 import 'package:shop/providers/auth.provider.dart';
-import '../routes/routesPath.dart' as RoutesPath;
+import 'package:shop/providers/orders.provider.dart';
+import 'package:shop/routes/routesPath.dart' as RoutesPath;
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({Key? key}) : super(key: key);
@@ -46,7 +49,8 @@ class AppDrawer extends StatelessWidget {
             title: const Text('Deslogar-se'),
             onTap: () {
               Provider.of<Auth>(context, listen: false).logout();
-              Navigator.of(context).pushReplacementNamed(RoutesPath.AUTH_OR_HOME);
+              Navigator.of(context)
+                  .pushReplacementNamed(RoutesPath.AUTH_OR_HOME);
             },
           )
         ],

@@ -1,12 +1,10 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shop/errors/http_exception.dart';
 import 'package:shop/models/cart_item.dart';
 import 'package:shop/models/order.dart';
-import 'cart.provider.dart';
+import 'package:shop/providers/cart.provider.dart';
 
 class Orders with ChangeNotifier {
   final String _token;
@@ -49,6 +47,7 @@ class Orders with ChangeNotifier {
       _items = items.reversed.toList();
       notifyListeners();
     } catch (error) {
+      // ignore: avoid_print
       print(error);
     }
   }

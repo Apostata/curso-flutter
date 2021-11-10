@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:shop/Components/AppDrawer.dart';
 import 'package:shop/Components/Product_manager_item.dart';
 import 'package:shop/providers/products.provider.dart';
-import '../routes/routesPath.dart' as RoutesPath;
+import 'package:shop/routes/routesPath.dart' as RoutesPath;
 
 class ProductManagerPage extends StatelessWidget {
   const ProductManagerPage({Key? key}) : super(key: key);

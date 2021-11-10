@@ -74,7 +74,7 @@ camadas(aparentemente um posicionamento absoluto) elemento dentro de outro
 
 ### invisíveis
 - GestureDetector
-
+- Slivers(varias implementações) : Uma fatia é uma parte de uma área rolável que você pode definir para se comportar de uma maneira especial. Você pode usar Slivers(lascas) para obter efeitos de rolagem personalizados, como rolagem elástica.
 
 ## Widgets espefícos
 

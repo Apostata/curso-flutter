@@ -4,7 +4,7 @@ import 'package:shop/errors/http_exception.dart';
 import 'package:shop/providers/product.dart';
 import 'package:shop/providers/auth.provider.dart';
 import 'package:shop/providers/cart.provider.dart';
-import '../routes//routesPath.dart' as RoutesPath;
+import 'package:shop/routes/routesPath.dart' as RoutesPath;
 
 class ProductItem extends StatelessWidget {
   const ProductItem({Key? key}) : super(key: key);
@@ -19,9 +19,15 @@ class ProductItem extends StatelessWidget {
       borderRadius: BorderRadius.circular(10),
       child: GridTile(
         child: GestureDetector(
-          child: Image.network(
-            product.imageUrl,
-            fit: BoxFit.cover,
+          child: Hero(
+            tag: product.id,
+            child: FadeInImage(
+              placeholder: const AssetImage('assets/images/product-placeholder.png'),
+              image: NetworkImage(
+                product.imageUrl,
+              ),
+              fit: BoxFit.cover,
+            ),
           ),
           onTap: () {
             Navigator.of(context).pushNamed(

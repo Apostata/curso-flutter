@@ -20,7 +20,7 @@ class Store {
 
   static Future<Map<String, dynamic>> getMap(String key) async {
     try {
-      final prefs = await SharedPreferences.getInstance();
+      await SharedPreferences.getInstance();
       
       return json.decode(await getString(key));
     } catch (_) {

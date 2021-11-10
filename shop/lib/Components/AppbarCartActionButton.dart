@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop/providers/cart.provider.dart';
-import '../routes//routesPath.dart' as RoutesPath;
-import 'Badge.dart';
+import 'package:shop/routes/routesPath.dart' as RoutesPath;
+import 'package:shop/Components/Badge.dart';
 
 class AppbarCartActionButton extends StatelessWidget {
   const AppbarCartActionButton({Key? key}) : super(key: key);

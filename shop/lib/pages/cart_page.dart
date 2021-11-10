@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop/Components/Cart_buy_button.dart';
 import 'package:shop/Components/Cart_item.dart';
-import 'package:shop/providers/auth.provider.dart';
 import 'package:shop/providers/cart.provider.dart';
 
 class CartPage extends StatelessWidget {

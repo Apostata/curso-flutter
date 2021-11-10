@@ -1,9 +1,10 @@
+// import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:shop/providers/product.dart';
 import 'package:shop/providers/products.provider.dart';
-import '../routes/routesPath.dart' as RoutesPath;
+import 'package:shop/routes/routesPath.dart' as RoutesPath;
 
 class ProductManagerEdit extends StatefulWidget {
   final String? id;
@@ -41,32 +42,33 @@ class _ProductManagerEditState extends State<ProductManagerEdit> {
 
   @override
   Widget? initState() {
-    super.initState();
-    final id = widget.id;
+      super.initState();
+      final id = widget.id;
 
-    if (id != null && id != 'new') {
-      final products = Provider.of<Products>(context, listen: false);
-      final selectedProd = products.products.where((prd) {
-        return prd.id == id;
-      }).toList();
+      if ( id != 'new') {
+        final products = Provider.of<Products>(context, listen: false);
+        final selectedProd = products.products.where((prd) {
+          return prd.id == id;
+        }).toList();
 
-      if (selectedProd.isNotEmpty) {
-        setState(() {
-          product = selectedProd[0];
-          isEdit = true;
-        });
-        _idControler.text = product?.id.toString() ?? '';
-        _nameControler.text = product?.name.toString() ?? '';
-        _priceControler.text = product?.price.toStringAsFixed(2) ?? '';
-        _descriptionControler.text = product?.description ?? '';
-        _imageUrlControler.text = product?.imageUrl ?? '';
-        _formData['id'] = product?.id.toString() ?? '';
-      } else {
-        Navigator.of(context).pushReplacementNamed(RoutesPath.PRODUCTS);
+        if (selectedProd.isNotEmpty) {
+          setState(() {
+            product = selectedProd[0];
+            isEdit = true;
+          });
+          _idControler.text = product?.id.toString() ?? '';
+          _nameControler.text = product?.name.toString() ?? '';
+          _priceControler.text = product?.price.toStringAsFixed(2) ?? '';
+          _descriptionControler.text = product?.description ?? '';
+          _imageUrlControler.text = product?.imageUrl ?? '';
+          _formData['id'] = product?.id.toString() ?? '';
+        } else {
+          Navigator.of(context).pushReplacementNamed(RoutesPath.PRODUCTS);
+        }
       }
-    }
 
-    _imageUrlFocus.addListener(updateImage);
+      _imageUrlFocus.addListener(updateImage);
+    
   }
 
   void updateImage() {
@@ -123,7 +125,9 @@ class _ProductManagerEditState extends State<ProductManagerEdit> {
 
   @override
   Widget build(BuildContext context) {
-    final id = widget.id;
+      late final String id;
+    
+      id = widget.id!;
 
     return Scaffold(
       appBar: AppBar(
@@ -265,10 +269,10 @@ class _ProductManagerEditState extends State<ProductManagerEdit> {
                                   style: TextStyle(fontSize: 12),
                                 )
                               : Image.network(
-                                  _imageUrlControler.text,
-                                  width: 100,
-                                  height: 100,
-                                ),
+                                _imageUrlControler.text,
+                                width: 100,
+                                height: 100,
+                              ),
                         )
                       ],
                     )

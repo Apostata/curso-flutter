@@ -65,7 +65,9 @@ flutter:
   assets:
     - lib/data/dummy_data.json
     - .env
-  #   - images/a_dot_ham.jpeg
+
+    # Images
+    - assets/images/product-placeholder.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

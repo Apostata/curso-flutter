@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:shop/errors/http_exception.dart';
 import 'package:shop/providers/product.dart';
 import 'package:shop/providers/products.provider.dart';
-import '../routes/routesPath.dart' as RoutesPath;
+import 'package:shop/routes/routesPath.dart' as RoutesPath;
 
 class ProductManagerItem extends StatelessWidget {
   final Product product;

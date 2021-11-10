@@ -32,10 +32,11 @@ class Products with ChangeNotifier {
       final favoritesResp = await Dio().get(
         '$_urlUserFavorites/$_userId.json?auth=$_token',
       );
+      if (favoritesResp.data == null) return;
 
       response.data.forEach((prodId, prodData) {
         final bool isFavourite = favoritesResp.data[prodId] ?? false;
-        
+
         products.add(
           Product(
               id: prodId,
@@ -43,13 +44,13 @@ class Products with ChangeNotifier {
               description: prodData['description'],
               price: double.parse(prodData['price'].toString()),
               imageUrl: prodData['imageUrl'],
-              isFavotire: isFavourite
-            ),
+              isFavotire: isFavourite),
         );
       });
       _products = products;
       notifyListeners();
     } catch (error) {
+      // ignore: avoid_print
       print(error);
     }
   }
