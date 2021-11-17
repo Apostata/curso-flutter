@@ -1,5 +1,9 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:places/components/image_input.dart';
+import 'package:places/components/location_input.dart';
+import 'package:places/providers/Places.provider.dart';
+import 'package:provider/provider.dart';
 
 class PlaceFormPage extends StatefulWidget {
   const PlaceFormPage({Key? key}) : super(key: key);
@@ -10,9 +14,18 @@ class PlaceFormPage extends StatefulWidget {
 
 class _PlaceFormPageState extends State<PlaceFormPage> {
   final _titleControler = TextEditingController();
+  File? _pickedImage;
 
-  void _submitForm(){
+  void _submitForm() {
+    if (_titleControler.text.isEmpty || _pickedImage == null) return;
 
+    Provider.of<Places>(context, listen: false)
+        .addPlace(_titleControler.text, _pickedImage!);
+    Navigator.of(context).pop();
+  }
+
+  void _selectImage(File pickedImage) {
+    _pickedImage = pickedImage;
   }
 
   @override
@@ -38,7 +51,11 @@ class _PlaceFormPageState extends State<PlaceFormPage> {
                       const SizedBox(
                         height: 10,
                       ),
-                      const ImageInput()
+                      ImageInput(_selectImage),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      const LocationInput()
                     ],
                   ),
                 ),
@@ -49,6 +66,7 @@ class _PlaceFormPageState extends State<PlaceFormPage> {
                 onPressed: _submitForm,
                 style: ButtonStyle(
                   // backgroundColor: MaterialStateProperty.all(Theme.of(context).colorScheme.secondary),
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                   shape: MaterialStateProperty.all(RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(0))),
                 ),

@@ -1,5 +1,16 @@
+# Pefiféricos ( Camera, localização e etc...)
+
+## Camera
+
+### Plugin image_picker
+no caso abaixo usando o plugin `image_picker`.
+
+precisaremos de 3 pacotes instalados no `pubspec.yaml`:
+`path`, `path_provider` e o `image_picker` 
+
+
+```dart
 import 'dart:io';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart' as sysPaths;
@@ -7,6 +18,7 @@ import 'package:path/path.dart' as path;
 
 class ImageInput extends StatefulWidget {
   final Function onSelectImage;
+
   const ImageInput(this.onSelectImage, {Key? key}) : super(key: key);
 
   @override
@@ -18,6 +30,7 @@ class _ImageInputState extends State<ImageInput> {
 
   void _takePicture() async {
     final ImagePicker _picker = ImagePicker();
+
     XFile? image = await _picker.pickImage(
       source: ImageSource.camera,
       maxWidth: 600,
@@ -29,15 +42,11 @@ class _ImageInputState extends State<ImageInput> {
       _storedImage = File(image.path);
     });
 
-    final appDir = kIsWeb
-        ? ''
-        : await sysPaths
-            .getApplicationDocumentsDirectory(); //pega diretório para armazenar a imagem
-    String fileName = kIsWeb ? '' : path.basename(_storedImage!.path);
-    final savedImage = kIsWeb
-        ? _storedImage
-        : await _storedImage!.copy('${(appDir as Directory).path}/$fileName');
-    widget.onSelectImage(savedImage);
+    final appDir = await sysPaths
+        .getApplicationDocumentsDirectory(); //pega diretório para armazenar a imagem
+    String fileName = path.basename(_storedImage!.path);
+    final savedImage = await _storedImage!.copy('${appDir.path}/$fileName');
+    widget.onSelectImage(savedImage); //passa para o widget pai
   }
 
   @override
@@ -52,17 +61,11 @@ class _ImageInputState extends State<ImageInput> {
                 BoxDecoration(border: Border.all(width: 1, color: Colors.grey)),
             alignment: Alignment.center,
             child: _storedImage != null
-                ? kIsWeb
-                    ? Image.network(
-                        _storedImage!.path,
-                        width: double.infinity,
-                        fit: BoxFit.cover,
-                      )
-                    : Image.file(
-                        _storedImage!,
-                        width: double.infinity,
-                        fit: BoxFit.cover,
-                      )
+                ? Image.file(
+                    _storedImage!,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                  )
                 : const Text('Nenhuma imagem...'),
           ),
         ),
@@ -97,3 +100,7 @@ class _ImageInputState extends State<ImageInput> {
     );
   }
 }
+
+```
+
+## Location

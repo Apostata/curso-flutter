@@ -12,4 +12,7 @@ final theme = ThemeData(
         )
     )
   ),
+  progressIndicatorTheme: const ProgressIndicatorThemeData(
+    color: Colors.amberAccent
+  )
 );
