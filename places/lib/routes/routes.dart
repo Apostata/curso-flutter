@@ -6,6 +6,7 @@ import 'package:regex_router/regex_router.dart';
 final routes = RegexRouter.create({
   RoutesPath.PLACES_LIST: (ctx, _) => const PlacesListPage(),
   RoutesPath.PLACE_FORM: (ctx, _) => const PlaceFormPage(),
+  // RoutesPath.SELECT_MAP: (ctx, _) => const MapPage()
 });
 
 final onGenerateRoutes = routes.generateRoute;
