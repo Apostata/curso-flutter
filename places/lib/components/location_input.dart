@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:places/helpers/location.utils.dart';
 import 'package:places/pages/map_page.dart';
 
 class LocationInput extends StatefulWidget {
-  const LocationInput({Key? key}) : super(key: key);
+  final Function onSelectPosition;
+  const LocationInput(this.onSelectPosition, {Key? key}) : super(key: key);
 
   @override
   _LocationInputState createState() => _LocationInputState();
@@ -13,22 +15,33 @@ class LocationInput extends StatefulWidget {
 class _LocationInputState extends State<LocationInput> {
   String? _previewImageURL;
 
-  Future<void> _getCurrentLocation() async {
-    final locationData = await Location().getLocation();
-    // print('latitude:${locationData.latitude}, longitude: ${locationData.longitude}');
+  void _showPreview(double? latitude, double? longitude) {
     final imageUrl = LocationUtil.generetaLocationPreview(
-        latitude: locationData.latitude ?? 0,
-        longitude: locationData.longitude ?? 0);
+        latitude: latitude ?? 0, longitude: longitude ?? 0);
     setState(() {
       _previewImageURL = imageUrl;
     });
+  }
+
+  Future<void> _getCurrentLocation() async {
+    try {
+      final locationData = await Location().getLocation();
+      // print('latitude:${locationData.latitude}, longitude: ${locationData.longitude}');
+      _showPreview(locationData.latitude, locationData.longitude);
+      widget.onSelectPosition(
+          LatLng(locationData.latitude!, locationData.longitude!));
+    } catch (e) {
+      return;
+    }
   }
 
   Future<void> _selectOnMap() async {
     final selectedLocation = await Navigator.of(context)
         .push(MaterialPageRoute(builder: (ctx) => const MapPage()));
     if (selectedLocation == null) return;
-    print(selectedLocation);
+    _showPreview(selectedLocation.latitude, selectedLocation.longitude);
+    widget.onSelectPosition(
+        LatLng(selectedLocation.latitude, selectedLocation.longitude));
   }
 
   @override

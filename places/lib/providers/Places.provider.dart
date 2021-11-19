@@ -1,7 +1,9 @@
 import 'dart:io';
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:places/data/db_util.dart';
+import 'package:places/helpers/location.utils.dart';
 import 'package:places/models/place.model.dart';
 
 class Places with ChangeNotifier {
@@ -13,7 +15,7 @@ class Places with ChangeNotifier {
         .map((dataPlace) => Place(
               id: dataPlace['id'],
               title: dataPlace['title'],
-              location: null,
+              location: Location(latitude: dataPlace['latitude'], longitude: dataPlace['longitude'], address: dataPlace['address']),
               image: File(dataPlace['image']),
             ))
         .toList();
@@ -34,11 +36,13 @@ class Places with ChangeNotifier {
 
   Future<void> getCurrentLocation() async {}
 
-  void addPlace(String title, File image) {
+  Future<void> addPlace(String title, File image, LatLng position) async {
+    String address = await LocationUtil.getAddressFrom(position);
+
     final place = Place(
       id: Random().nextDouble().toString(),
       title: title,
-      location: null,
+      location: Location(latitude: position.latitude, longitude: position.longitude, address: address),
       image: image,
     );
     _places.add(place);
@@ -48,6 +52,9 @@ class Places with ChangeNotifier {
       'id': place.id,
       'title': place.title,
       'image': place.image.path,
+      'latitude': position.latitude,
+      'longitude': position.longitude,
+      'address': address
     });
 
     notifyListeners();

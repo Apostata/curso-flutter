@@ -3,13 +3,13 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:places/models/place.model.dart';
 
 class MapPage extends StatefulWidget {
-  final Location initialLocation;
+  final LatLng initialLocation;
   final bool isReadOnly;
 
   const MapPage({
     Key? key,
     this.initialLocation =
-        const Location(latitude: 37.4219838, longitude: -122.0840327),
+        const LatLng( 37.4219838, -122.0840327),
         this.isReadOnly = false
   }) : super(key: key);
 
@@ -19,7 +19,7 @@ class MapPage extends StatefulWidget {
 
 class _MapPageState extends State<MapPage> {
   
-   LatLng _selectedLocation = const LatLng(0, 0);
+   LatLng? _selectedLocation;
 
   void _selectMapLoLcation(LatLng location){
     setState(() {
@@ -33,7 +33,7 @@ class _MapPageState extends State<MapPage> {
       appBar: AppBar(
         title: const Text('Selecione!'),
         actions: 
-          !widget.isReadOnly &&  _selectedLocation.latitude != 0 &&  _selectedLocation.longitude != 0? 
+          !widget.isReadOnly &&  _selectedLocation != null? 
           [
             IconButton(
               onPressed: ()=>{
@@ -55,7 +55,7 @@ class _MapPageState extends State<MapPage> {
         markers:{
           Marker(
             markerId: const MarkerId('pi'),
-            position: _selectedLocation
+            position: _selectedLocation ?? widget.initialLocation
           )
         },
       ),

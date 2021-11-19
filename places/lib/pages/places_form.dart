@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:places/components/image_input.dart';
 import 'package:places/components/location_input.dart';
 import 'package:places/providers/Places.provider.dart';
@@ -15,17 +16,29 @@ class PlaceFormPage extends StatefulWidget {
 class _PlaceFormPageState extends State<PlaceFormPage> {
   final _titleControler = TextEditingController();
   File? _pickedImage;
+  LatLng? _pickedPosition;
+
+  bool _isValidForm() {
+    return _titleControler.text.isNotEmpty || _pickedImage != null || _pickedPosition != null;
+  }
 
   void _submitForm() {
-    if (_titleControler.text.isEmpty || _pickedImage == null) return;
-
+    if (!_isValidForm()) return;
     Provider.of<Places>(context, listen: false)
-        .addPlace(_titleControler.text, _pickedImage!);
+        .addPlace(_titleControler.text, _pickedImage!, _pickedPosition!);
     Navigator.of(context).pop();
   }
 
   void _selectImage(File pickedImage) {
+    setState(() {
     _pickedImage = pickedImage;
+    });
+  }
+
+  void _selectPosition(LatLng position) {
+    setState(() {
+      _pickedPosition = position;
+    });
   }
 
   @override
@@ -47,6 +60,7 @@ class _PlaceFormPageState extends State<PlaceFormPage> {
                         decoration: const InputDecoration(
                           labelText: 'Titulo',
                         ),
+                        // onChanged: (text) => setState(() {}),
                       ),
                       const SizedBox(
                         height: 10,
@@ -55,7 +69,7 @@ class _PlaceFormPageState extends State<PlaceFormPage> {
                       const SizedBox(
                         height: 10,
                       ),
-                      const LocationInput()
+                      LocationInput(_selectPosition)
                     ],
                   ),
                 ),
@@ -63,7 +77,7 @@ class _PlaceFormPageState extends State<PlaceFormPage> {
             ),
             const SizedBox(height: 10),
             ElevatedButton(
-                onPressed: _submitForm,
+                onPressed: _isValidForm() ? _submitForm : null,
                 style: ButtonStyle(
                   // backgroundColor: MaterialStateProperty.all(Theme.of(context).colorScheme.secondary),
                   tapTargetSize: MaterialTapTargetSize.shrinkWrap,
