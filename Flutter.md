@@ -112,7 +112,7 @@ Se elemento é statefull é nesta arvore que fica seu estado
 Objeto Renderizado na tela. Raramente recontruida
 A arvore que pinta os componentes da tela, o objeto renderizado
 
-## LifeCycles
+## Metodo Build
 Quando o metodo build é chamado?
 
 setState
@@ -356,21 +356,23 @@ class _MyClassState extends State<MyClass> {
 2. Método 2 - usando o get_cli (npm do flutter)
 
 ## Ciclo de vida dos componentes (Wdgets)
-### Stateless
+### Stateless (LifeCycles)
 * contrutor
 * build()
 
-### Stateful
+### Stateful (LifeCycles)
 * constructor
-* initState() -similar ao didMount do react, exemplo de uso chamar o back para retornar uma lista
-* build() -> sempre roda ao iniciar o componente
+* createState() -> quando criado um statefull widget
+* initState() -> similar ao didMount do react, exemplo de uso chamar o back para retornar uma lista
+* didChangeDependencies() -> chamado após o initState() somente na primeira vez que o widget é criado
+* build() -> sempre roda ao iniciar o componente e depois de qualquer alteração de estado
 * setState() -> sempre chama o build()
-* didUpdateWidget() -> quando altera o componente. chama o build(), é possível verificar as diferenças entre o widget e o oldWidget
+* didUpdateWidget() -> quando altera o componente pai e precisa refletir no filho. chama o build(), é possível verificar as diferenças entre o widget e o oldWidget, similar ao componentDidUpdate do React
 * dispose() -> similar ao didUmmont, quando o componente sai da tela
 
 
 ## Ciclos de vida da aplicação
-* inativo -> app inatico, nenhuma etrado do usuário é recebida, quando app é minimizado
+* inative -> app inativo, nenhuma etrado do usuário é recebida, quando app é minimizado
 * paused -> app não visível, executando em background
 * resumed -> app novamente visível e respondendo ao usuário
 * suspending ou detached -> app será suspensa (sair), no android quando clica no botão volar
