@@ -1,8 +1,6 @@
-import 'dart:io';
-
 import 'package:chat/components/user_image_picker.dart';
 import 'package:chat/helpers/FormValidation.dart';
-import 'package:chat/models/auth_form_data.dart';
+import 'package:chat/models/auth_form.model.dart';
 import 'package:flutter/material.dart';
 import 'package:chat/validations/auth_form.validation.dart';
 
@@ -20,30 +18,48 @@ class _AuthFormState extends State<AuthForm> {
 
   late FormValidation authDataValidation;
 
-  void _imagePick(File image) {
+  void _imagePick(dynamic image) {
     _authData.image = image;
+    setState(() => {
+          authDataValidation = authDataValidation.checkFieldValidity(
+            fieldName: 'image',
+            value: image,
+          )
+        });
   }
 
   Map<String, dynamic> _mountValidationFields() {
-    Map<String, dynamic> validationFields = _authData.isSignup
-        ? {
-            'name': _authData.name,
-            'email': _authData.email,
-            'password': _authData.password,
-            'image': _authData.image,
-          }
-        : {'email': _authData.email, 'password': _authData.password};
+    final formType = _authData.isLogin ? 'login' : 'signup';
+    Map<String, dynamic> validationFields = authDataValidation.mountDynForm(
+        auth_form_validation[formType]!, _authData);
     return validationFields;
+  }
+
+  void _showImageError() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: const Color.fromRGBO(0, 0, 0, 0.5),
+        content: Text(
+          'É necessario selecionar uma imagem',
+          style: TextStyle(color: Theme.of(context).errorColor),
+        ),
+      ),
+    );
   }
 
   void _submit() {
     setState(() => {
           authDataValidation = authDataValidation.checkFormValidity(
-              authDataValidation, _mountValidationFields())
+            authDataValidation,
+            _mountValidationFields(),
+          )
         });
+
     final imageValid =
         _authData.isLogin ? true : authDataValidation.fields['image']!.valid;
-    
+
+    if (!imageValid) _showImageError();
+
     final bool isvalidForm = _formKey.currentState!.validate() && imageValid;
     if (!isvalidForm) return;
     widget.onSubmit(_authData);
@@ -64,7 +80,8 @@ class _AuthFormState extends State<AuthForm> {
               child: Column(
                 children: [
                   if (_authData.isSignup)
-                    UserImagePicker(onImagePicked: _imagePick),
+                    UserImagePicker(
+                        onImagePicked: _imagePick, image: _authData.image),
                   if (_authData.isSignup)
                     TextFormField(
                       key: const ValueKey('name'),
@@ -75,15 +92,14 @@ class _AuthFormState extends State<AuthForm> {
                         setState(() => {
                               authDataValidation =
                                   authDataValidation.checkFieldValidity(
-                                      fieldName: 'name', value: name)
+                                fieldName: 'name',
+                                value: name,
+                              )
                             })
                       },
                       validator: (_) {
                         final field = authDataValidation.fields['name']!;
-                        if (!field.valid && field.touched) {
-                          return authDataValidation.fields['name']!.error;
-                        }
-                        return null;
+                        return field.hasError;
                       },
                       decoration: const InputDecoration(
                         labelText: 'Name',
@@ -98,15 +114,14 @@ class _AuthFormState extends State<AuthForm> {
                       setState(() => {
                             authDataValidation =
                                 authDataValidation.checkFieldValidity(
-                                    fieldName: 'email', value: email)
+                              fieldName: 'email',
+                              value: email,
+                            )
                           })
                     },
                     validator: (_) {
                       final field = authDataValidation.fields['email']!;
-                      if (!field.valid && field.touched) {
-                        return authDataValidation.fields['email']!.error;
-                      }
-                      return null;
+                      return field.hasError;
                     },
                     decoration: const InputDecoration(
                       labelText: 'E-mail',
@@ -122,15 +137,14 @@ class _AuthFormState extends State<AuthForm> {
                       setState(() => {
                             authDataValidation =
                                 authDataValidation.checkFieldValidity(
-                                    fieldName: 'password', value: password)
+                              fieldName: 'password',
+                              value: password,
+                            )
                           })
                     },
                     validator: (_) {
                       final field = authDataValidation.fields['password']!;
-                      if (!field.valid && field.touched) {
-                        return authDataValidation.fields['password']!.error;
-                      }
-                      return null;
+                      return field.hasError;
                     },
                     decoration: const InputDecoration(
                       labelText: 'Password',

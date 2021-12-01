@@ -6,6 +6,14 @@ class FormValidation {
 
   FormValidation({this.valid = true, required this.fields});
 
+  Map<String, dynamic> mountDynForm(Map<String, FieldValidation> validation, formData) {
+    Map<String, dynamic> validationFields = {};
+    validation.forEach((key, value) {
+      validationFields[key] = formData.getKey(key);
+    });
+    return validationFields;
+  }
+
   FormValidation checkFieldValidity(
       {required String fieldName, required dynamic value}) {
     final field = fields[fieldName]!.checkFieldValidity(value, fieldName);
@@ -14,7 +22,6 @@ class FormValidation {
     newFields.remove(fieldName);
     newFields.forEach((key, fieldsvalue) {
       valid = newFields[key]!.valid && valid;
-       print('$key: $value,(${newFields[key]!.valid}) / currentField/ $fieldName: ${field.valid}');
     });
 
     return this;

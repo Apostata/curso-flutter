@@ -26,6 +26,11 @@ class FieldValidation {
     });
   }
 
+  String? get hasError {
+    if (!valid && touched) return error;
+    return null;
+  }
+
   void _checkRules(dynamic value, String field) {
     touched = true;
     valid = true;

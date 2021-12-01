@@ -3,7 +3,6 @@ Map<String, Function> validatationFunctions = {
     String newValue = value != null && value != '' && value != 'null'
         ? value.toString().trim()
         : '';
-    print(newValue);
     final bool isValid = newValue.isNotEmpty;
     final String error = 'O campo $field Precisa ser preenchido';
     return {'isValid': isValid, 'error': error};

@@ -1,12 +1,12 @@
-import 'dart:io';
+import 'package:chat/helpers/FormData.dart';
 
 enum AuthMode { Singup, Login }
 
-class AuthFormData {
+class AuthFormData implements FormData{
   String name = '';
   String email = '';
   String password = '';
-  File? image;
+  dynamic image;
   AuthMode _mode = AuthMode.Login;
 
   bool get isLogin {
@@ -15,6 +15,11 @@ class AuthFormData {
 
   bool get isSignup {
     return _mode == AuthMode.Singup;
+  }
+
+  @override
+  dynamic getKey(key) {
+    return {'name': name, 'email': email, 'password': password, 'image': image}[key];
   }
 
   void toggleAuthMode() {
