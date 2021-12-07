@@ -20,12 +20,12 @@ class _AuthFormState extends State<AuthForm> {
 
   void _imagePick(dynamic image) {
     _authData.image = image;
-    setState(() => {
-          authDataValidation = authDataValidation.checkFieldValidity(
-            fieldName: 'image',
-            value: image,
-          )
-        });
+    // setState(() => {
+    //       authDataValidation = authDataValidation.checkFieldValidity(
+    //         fieldName: 'image',
+    //         value: image,
+    //       )
+    //     });
   }
 
   Map<String, dynamic> _mountValidationFields() {
@@ -55,12 +55,13 @@ class _AuthFormState extends State<AuthForm> {
           )
         });
 
-    final imageValid =
-        _authData.isLogin ? true : authDataValidation.fields['image']!.valid;
+    // final imageValid =
+    //     _authData.isLogin ? true : authDataValidation.fields['image']!.valid;
 
-    if (!imageValid) _showImageError();
+    // if (!imageValid) _showImageError();
 
-    final bool isvalidForm = _formKey.currentState!.validate() && imageValid;
+    // final bool isvalidForm = _formKey.currentState!.validate() && imageValid;
+    final bool isvalidForm = _formKey.currentState!.validate();
     if (!isvalidForm) return;
     widget.onSubmit(_authData);
     //pass back to page

@@ -1,6 +1,6 @@
 import 'package:chat/helpers/FieldValidation.dart';
 
-Map<String, Map<String,FieldValidation>> auth_form_validation = {
+Map<String, Map<String, FieldValidation>> auth_form_validation = {
   'signup': {
     'name': FieldValidation(
       rules: {'minLength': 3},
@@ -17,13 +17,13 @@ Map<String, Map<String,FieldValidation>> auth_form_validation = {
       valid: false,
       touched: false,
     ),
-    'image': FieldValidation(
-      rules: {'required': true},
-      valid: false,
-      touched: false,
-    )
+    // 'image': FieldValidation(
+    //   rules: {'required': true},
+    //   valid: false,
+    //   touched: false,
+    // )
   },
-  'login':{
+  'login': {
     'email': FieldValidation(
       rules: {'email': true},
       valid: false,

@@ -355,6 +355,32 @@ class Carro {
 }
 ```
 
+##### Construtor factory
+Permite que você instancie subtipos(ou implementacões) desta classe, ou seja, usando o factory numa classe abstrata por exemplo, que não pode ser instanciada, este retornaria uma implementação da classe abstrata que pode ser instanciada
+
+```dart
+abstract class AuthService {
+  ChatUser? get curretUser;
+  Stream<ChatUser?> get userChanges;
+  Future<void> signup(
+    String name,
+    String email,
+    String password,
+    dynamic image,
+  );
+  Future<void> login(
+    String email,
+    String password,
+  );
+  Future<void> logout();
+
+  factory AuthService() {
+    return AuthServiceMock();
+  }
+}
+
+```
+
 #### Getters and Setters
 para atributos privados precisa-se usar getters e setters para manipulalos fora da classe
 ```dart

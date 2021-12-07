@@ -1,7 +1,7 @@
 import 'package:chat/models/auth_service.model.dart';
 import 'package:chat/models/chat_user.model.dart';
 
-class AuthServiceMock implements AuthService {
+class AuthServiceFirebase implements AuthService {
   @override
   ChatUser? get curretUser {
     return null;

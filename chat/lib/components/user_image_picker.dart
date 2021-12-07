@@ -44,9 +44,17 @@ class _UserImagePickerState extends State<UserImagePicker> {
 
   dynamic _getDeviceImage() {
     if (kIsWeb) {
-      return _webImage != null ? MemoryImage(_webImage!) :  widget.image != null? MemoryImage(widget.image): null;
+      return _webImage != null
+          ? MemoryImage(_webImage!)
+          : widget.image != null
+              ? MemoryImage(widget.image)
+              : null;
     }
-    return _image != null ? FileImage(_image!) : widget.image != null?  FileImage(widget.image) :null;
+    return _image != null
+        ? FileImage(_image!)
+        : widget.image != null
+            ? FileImage(widget.image)
+            : null;
   }
 
   @override

@@ -1,3 +1,4 @@
+import 'package:chat/pages/auth_or_chat_page.dart';
 import 'package:chat/pages/auth_page.dart';
 import 'package:chat/theme/theme.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Chat app',
       theme: theme,
-      home: const AuthPage(),
+      home: const AuthOrChat(),
       debugShowCheckedModeBanner: false,
     );
   }
