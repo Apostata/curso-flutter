@@ -5,7 +5,7 @@ class ChatMessage {
 
   final String userId;
   final String userName;
-  final String imageUrl;
+  final dynamic imageUrl;
 
   ChatMessage({
     required this.id,

@@ -2,7 +2,7 @@ import 'package:chat/helpers/FormData.dart';
 
 enum AuthMode { Singup, Login }
 
-class AuthFormData implements FormData{
+class AuthFormData implements FormData {
   String name = '';
   String email = '';
   String password = '';
@@ -19,7 +19,12 @@ class AuthFormData implements FormData{
 
   @override
   dynamic getKey(key) {
-    return {'name': name, 'email': email, 'password': password, 'image': image}[key];
+    return {
+      'name': name,
+      'email': email,
+      'password': password,
+      'image': image
+    }[key];
   }
 
   void toggleAuthMode() {

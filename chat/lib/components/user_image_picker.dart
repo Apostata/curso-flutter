@@ -28,14 +28,15 @@ class _UserImagePickerState extends State<UserImagePicker> {
     if (pickedImage != null) {
       if (kIsWeb) {
         Uint8List webImage = await pickedImage.readAsBytes();
+
         setState(() {
-          if (kIsWeb) _webImage = webImage;
+          _webImage = webImage;
         });
         widget.onImagePicked(_webImage!);
       } else {
         File image = File(pickedImage.path);
         setState(() {
-          if (kIsWeb) _image = image;
+          _image = image;
         });
         widget.onImagePicked(_image!);
       }

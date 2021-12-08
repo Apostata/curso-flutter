@@ -1,7 +1,6 @@
 import 'dart:async';
-import 'dart:io';
+import 'dart:convert';
 import 'dart:math';
-import 'dart:typed_data';
 import 'package:chat/models/auth_service.model.dart';
 import 'package:chat/models/chat_user.model.dart';
 import 'package:flutter/foundation.dart';
@@ -46,16 +45,16 @@ class AuthServiceMock implements AuthService {
     String password,
     dynamic image,
   ) async {
-    final File? file = kIsWeb
-        ? image != null
-            ? File.fromRawPath(image as Uint8List)
-            : image
-        : null;
+    final String urlImage = image != null
+        ? kIsWeb
+            ? base64Encode(image)
+            : image.path
+        : '/assets/images/avatar.png';
     final user = ChatUser(
       id: Random().nextDouble().toString(),
       name: name,
       email: email,
-      urlImage: file?.path ?? '/assets/images/avatar.png',
+      urlImage: urlImage,
     );
     _users.putIfAbsent(email, () => user);
     _updateUser(user);
