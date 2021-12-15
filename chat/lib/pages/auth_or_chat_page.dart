@@ -2,14 +2,32 @@ import 'package:chat/models/auth_service.model.dart';
 import 'package:chat/pages/auth_page.dart';
 import 'package:chat/pages/chat_page.dart';
 import 'package:chat/pages/loading_page.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
+final ENV = dotenv.env;
 
 class AuthOrChat extends StatelessWidget {
   const AuthOrChat({Key? key}) : super(key: key);
 
   Future<void> init(BuildContext context) async {
-    await Firebase.initializeApp();
+    // await Firebase.initializeApp();
+    if (kIsWeb) {
+      final options = FirebaseOptions(
+        apiKey: ENV['apiKey']!,
+        authDomain: ENV['authDomain'],
+        projectId: ENV['projectId']!,
+        storageBucket: ENV['storageBucket'],
+        messagingSenderId: ENV['messagingSenderId']!,
+        appId: ENV['appId']!,
+      );
+
+      await Firebase.initializeApp(options: options);
+    } else {
+      await Firebase.initializeApp();
+    }
   }
 
   @override

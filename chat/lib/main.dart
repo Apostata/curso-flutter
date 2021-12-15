@@ -1,11 +1,17 @@
 import 'package:chat/pages/auth_or_chat_page.dart';
-import 'package:chat/pages/auth_page.dart';
 import 'package:chat/providers/main.provider.dart';
 import 'package:chat/theme/theme.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+Future<void> main() async {
+  if (kIsWeb) {
+    String filename = '.env.web';
+    await dotenv.load(fileName: filename);
+  }
+
   runApp(const MyApp());
 }
 
