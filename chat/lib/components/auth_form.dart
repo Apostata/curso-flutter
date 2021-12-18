@@ -19,7 +19,7 @@ class _AuthFormState extends State<AuthForm> {
   late FormValidation authDataValidation;
 
   void _imagePick(dynamic image) {
-    _authData.image = image;
+    setState(() => {_authData.image = image});
     // setState(() => {
     //       authDataValidation = authDataValidation.checkFieldValidity(
     //         fieldName: 'image',
@@ -35,17 +35,17 @@ class _AuthFormState extends State<AuthForm> {
     return validationFields;
   }
 
-  void _showImageError() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        backgroundColor: const Color.fromRGBO(0, 0, 0, 0.5),
-        content: Text(
-          'É necessario selecionar uma imagem',
-          style: TextStyle(color: Theme.of(context).errorColor),
-        ),
-      ),
-    );
-  }
+  // void _showImageError() {
+  //   ScaffoldMessenger.of(context).showSnackBar(
+  //     SnackBar(
+  //       backgroundColor: const Color.fromRGBO(0, 0, 0, 0.5),
+  //       content: Text(
+  //         'É necessario selecionar uma imagem',
+  //         style: TextStyle(color: Theme.of(context).errorColor),
+  //       ),
+  //     ),
+  //   );
+  // }
 
   void _submit() {
     setState(() => {

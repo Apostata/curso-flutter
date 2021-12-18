@@ -1,5 +1,4 @@
-import 'dart:io';
-import 'dart:typed_data';
+import 'package:chat/helpers/crossPlatFormImageUtils.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -15,8 +14,7 @@ class UserImagePicker extends StatefulWidget {
 }
 
 class _UserImagePickerState extends State<UserImagePicker> {
-  File? _image;
-  Uint8List? _webImage;
+  dynamic _image;
 
   Future<void> _pickImage() async {
     final picker = ImagePicker();
@@ -26,37 +24,32 @@ class _UserImagePickerState extends State<UserImagePicker> {
       maxWidth: 150,
     );
     if (pickedImage != null) {
-      if (kIsWeb) {
-        Uint8List webImage = await pickedImage.readAsBytes();
-
-        setState(() {
-          _webImage = webImage;
-        });
-        widget.onImagePicked(_webImage!);
-      } else {
-        File image = File(pickedImage.path);
-        setState(() {
-          _image = image;
-        });
-        widget.onImagePicked(_image!);
-      }
+      pickWebOrFileImage(
+        pickedImage,
+        (image) => {
+          setState(() {
+            _image = image;
+          }),
+          widget.onImagePicked(image)
+        },
+      );
     }
   }
 
-  dynamic _getDeviceImage() {
-    if (kIsWeb) {
-      return _webImage != null
-          ? MemoryImage(_webImage!)
-          : widget.image != null
-              ? MemoryImage(widget.image)
-              : null;
-    }
-    return _image != null
-        ? FileImage(_image!)
-        : widget.image != null
-            ? FileImage(widget.image)
-            : null;
-  }
+  // dynamic _getDeviceImage() {
+  //   if (kIsWeb) {
+  //     return _image != null
+  //         ? MemoryImage(_webImage!)
+  //         : widget.image != null
+  //             ? MemoryImage(widget.image)
+  //             : null;
+  //   }
+  //   return _image != null
+  //       ? FileImage(_image!)
+  //       : widget.image != null
+  //           ? FileImage(widget.image)
+  //           : null;
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +58,7 @@ class _UserImagePickerState extends State<UserImagePicker> {
         CircleAvatar(
           radius: 40,
           backgroundColor: Colors.grey,
-          backgroundImage: _getDeviceImage(),
+          backgroundImage: getImageProvider(_image, widget.image),
         ),
         const SizedBox(height: 15),
         TextButton(

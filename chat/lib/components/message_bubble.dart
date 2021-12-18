@@ -1,14 +1,10 @@
-import 'dart:convert';
-import 'dart:io';
-import 'dart:typed_data';
-
+import 'package:chat/helpers/crossPlatFormImageUtils.dart';
 import 'package:chat/models/chat_message.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class MessageBubble extends StatelessWidget {
-  static const String _assetsImage = 'assets/images/avatar.png';
   final ChatMessage message;
   final bool fromLoggedUser;
   const MessageBubble({
@@ -16,24 +12,6 @@ class MessageBubble extends StatelessWidget {
     required this.message,
     required this.fromLoggedUser,
   }) : super(key: key);
-
-  ImageProvider _showUserImage(dynamic imageUrl) {
-    final teste = imageUrl is Uint8List;
-    ImageProvider? imgProvider;
-    final uri = Uri.parse(imageUrl);
-    if (uri.path.contains(_assetsImage)) {
-      imgProvider = const AssetImage(_assetsImage);
-    } else if (kIsWeb) {
-      print(imageUrl);
-      final img = base64Decode(imageUrl);
-      imgProvider = MemoryImage(img);
-    } else if (uri.scheme.contains('http')) {
-      imgProvider = NetworkImage(uri.toString());
-    } else {
-      imgProvider = FileImage(File(uri.toString()));
-    }
-    return imgProvider;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -113,7 +91,7 @@ class MessageBubble extends StatelessWidget {
           left: fromLoggedUser ? null : 165,
           right: fromLoggedUser ? 165 : null,
           child: CircleAvatar(
-            backgroundImage: _showUserImage(message.imageUrl),
+            backgroundImage: stringToImageProvider(message.imageUrl),
           ),
         ),
       ],

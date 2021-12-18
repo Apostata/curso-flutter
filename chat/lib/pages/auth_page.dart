@@ -28,6 +28,7 @@ class _AuthPageState extends State<AuthPage> {
         );
       }
     } catch (err) {
+      // ignore: avoid_print
       print(err);
     } finally {
       setState(() => _isLoading = false);

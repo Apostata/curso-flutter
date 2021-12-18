@@ -1,9 +1,6 @@
-import 'dart:math';
-
 import 'package:chat/components/chat_input.dart';
 import 'package:chat/components/chat_messages.dart';
 import 'package:chat/models/auth_service.model.dart';
-import 'package:chat/models/chat_notification.dart';
 import 'package:chat/pages/notiffication_page.dart';
 import 'package:chat/services/chat_notification.service.dart';
 import 'package:flutter/material.dart';

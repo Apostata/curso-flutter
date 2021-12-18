@@ -1,8 +1,7 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
-import 'dart:math';
 
+import 'package:chat/helpers/crossPlatFormImageUtils.dart';
 import 'package:chat/models/auth_service.model.dart';
 import 'package:chat/models/chat_user.model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -36,20 +35,21 @@ class AuthServiceFirebase implements AuthService {
     String password,
     dynamic image,
   ) async {
-    // final String urlImage = image != null
-    //     ? kIsWeb
-    //         ? base64Encode(image)
-    //         : image.path
-    //     : '/assets/images/avatar.png';
     final auth = FirebaseAuth.instance;
     UserCredential credential = await auth.createUserWithEmailAndPassword(
       email: email,
       password: password,
     );
+    print(credential);
     if (credential.user == null) return;
 
+    //upload imagem do usuário
+    final imageName = '${credential.user!.uid}.jpg';
+    final imageUrl = await _uploadUserImage(image, imageName);
+
+    //atualizar atributos do usuário
     credential.user?.updateDisplayName(name);
-    // credential.user?.updatePhotoURL(image); TODO: atualizar depois
+    credential.user?.updatePhotoURL(imageUrl);
   }
 
   @override
@@ -65,10 +65,17 @@ class AuthServiceFirebase implements AuthService {
     FirebaseAuth.instance.signOut();
   }
 
-  Future<String?> _uploadUserImage(File? image, String imageName) async {
+  Future<String?> _uploadUserImage(dynamic image, String imageName) async {
+    if (image == null) return null;
     final storage = FirebaseStorage.instance;
     final imageRef = storage.ref().child('user_images').child(imageName);
-    await imageRef.putFile(image).whenComplete(() => {});
+    if (kIsWeb) {
+      await imageRef.putData(image).whenComplete(() => {});
+    } else {
+      await imageRef.putFile(image!).whenComplete(() => {});
+    }
+
+    return await imageRef.getDownloadURL();
   }
 
   static ChatUser _toChatUser(User user) {
@@ -76,7 +83,7 @@ class AuthServiceFirebase implements AuthService {
       id: user.uid,
       name: user.displayName ?? user.email!.split('@')[0],
       email: user.email!,
-      urlImage: user.photoURL ?? '/assets/images/avatar.png',
+      urlImage: user.photoURL ?? 'assets/images/avatar.png',
     );
   }
 }
