@@ -1,9 +1,7 @@
 import 'dart:async';
-import 'dart:io';
-
-import 'package:chat/helpers/crossPlatFormImageUtils.dart';
 import 'package:chat/models/auth_service.model.dart';
 import 'package:chat/models/chat_user.model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
@@ -40,7 +38,6 @@ class AuthServiceFirebase implements AuthService {
       email: email,
       password: password,
     );
-    print(credential);
     if (credential.user == null) return;
 
     //upload imagem do usuário
@@ -48,8 +45,14 @@ class AuthServiceFirebase implements AuthService {
     final imageUrl = await _uploadUserImage(image, imageName);
 
     //atualizar atributos do usuário
-    credential.user?.updateDisplayName(name);
-    credential.user?.updatePhotoURL(imageUrl);
+
+    //codigo da aula não atualizava current user image url para uso imediato após cadastro
+    if (imageUrl != null) _currentUser!.UrlImage = imageUrl;
+    await credential.user?.updateDisplayName(name);
+    await credential.user?.updatePhotoURL(imageUrl);
+
+    // salva usuário no banco de dados
+    await _saveChatUser(_toChatUser(credential.user!), imageUrl);
   }
 
   @override
@@ -76,6 +79,16 @@ class AuthServiceFirebase implements AuthService {
     }
 
     return await imageRef.getDownloadURL();
+  }
+
+  Future<void> _saveChatUser(ChatUser user, image) async {
+    final store = FirebaseFirestore.instance;
+    final docRef = store.collection('users').doc(user.id);
+    docRef.set({
+      'name': user.name,
+      'email': user.email,
+      'urlImage': image,
+    });
   }
 
   static ChatUser _toChatUser(User user) {

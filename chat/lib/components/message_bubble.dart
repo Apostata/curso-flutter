@@ -54,27 +54,33 @@ class MessageBubble extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Padding(
-                            padding:
-                                EdgeInsets.only(left: fromLoggedUser ? 20 : 0),
-                            child: Text(
-                              '${message.userName}:',
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
+                          Flexible(
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                  left: fromLoggedUser ? 20 : 0),
+                              child: Text(
+                                '${message.userName}:',
+                                style: const TextStyle(
+                                  overflow: TextOverflow.ellipsis,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
                           ),
-                          Padding(
-                            padding:
-                                EdgeInsets.only(right: fromLoggedUser ? 0 : 20),
-                            child: Text(
-                              dateFormat.format(message.ceatedAt),
-                              textAlign: fromLoggedUser
-                                  ? TextAlign.right
-                                  : TextAlign.left,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 10,
+                          Flexible(
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                  right: fromLoggedUser ? 0 : 20),
+                              child: Text(
+                                dateFormat.format(message.ceatedAt),
+                                textAlign: fromLoggedUser
+                                    ? TextAlign.right
+                                    : TextAlign.left,
+                                style: const TextStyle(
+                                  overflow: TextOverflow.ellipsis,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 10,
+                                ),
                               ),
                             ),
                           )

@@ -2,7 +2,7 @@ class ChatUser {
   final String id;
   final String name;
   final String email;
-  final String urlImage;
+  String urlImage;
 
   ChatUser({
     required this.id,
@@ -10,4 +10,12 @@ class ChatUser {
     required this.email,
     required this.urlImage,
   });
+
+  set UrlImage(String image) {
+    urlImage = image;
+  }
+
+  // void setUrlImage(String image) {
+  //   urlImage = image;
+  // }
 }
