@@ -3,7 +3,7 @@ import 'dart:math';
 
 import 'package:chat/models/chat_message.dart';
 import 'package:chat/models/chat_user.model.dart';
-import 'package:chat/services/chat.service.dart';
+import 'package:chat/models/chat.service.model.dart';
 
 class ChatServiceMock implements ChatService {
   static final List<ChatMessage> _msgs = [

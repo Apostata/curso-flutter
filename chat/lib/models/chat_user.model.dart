@@ -1,6 +1,6 @@
 class ChatUser {
   final String id;
-  final String name;
+  String name;
   final String email;
   String urlImage;
 
@@ -13,6 +13,10 @@ class ChatUser {
 
   set UrlImage(String image) {
     urlImage = image;
+  }
+
+  set Name(String nome) {
+    name = nome;
   }
 
   // void setUrlImage(String image) {

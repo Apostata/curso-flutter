@@ -1,5 +1,5 @@
 import 'package:chat/models/auth_service.model.dart';
-import 'package:chat/services/chat.service.dart';
+import 'package:chat/models/chat.service.model.dart';
 import 'package:flutter/material.dart';
 
 class ChatInput extends StatefulWidget {
