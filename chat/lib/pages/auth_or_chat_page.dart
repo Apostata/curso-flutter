@@ -2,10 +2,12 @@ import 'package:chat/models/auth_service.model.dart';
 import 'package:chat/pages/auth_page.dart';
 import 'package:chat/pages/chat_page.dart';
 import 'package:chat/pages/loading_page.dart';
+import 'package:chat/services/chat_notification.service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:provider/provider.dart';
 
 final ENV = dotenv.env;
 
@@ -28,6 +30,10 @@ class AuthOrChat extends StatelessWidget {
     } else {
       await Firebase.initializeApp();
     }
+    await Provider.of<ChatNotificationService>(
+      context,
+      listen: false,
+    ).init();
   }
 
   @override

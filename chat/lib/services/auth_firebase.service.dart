@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:chat/models/auth_service.model.dart';
-import 'package:chat/models/chat_message.dart';
 import 'package:chat/models/chat_user.model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -8,7 +7,8 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 
 class AuthServiceFirebase implements AuthService {
-  static ChatUser? _currentUser; // mock de um usuário ativo
+  static ChatUser? _currentUser;
+
   static final _userStream = Stream<ChatUser?>.multi((controller) async {
     final authChanges = FirebaseAuth.instance.authStateChanges();
     await for (final user in authChanges) {
