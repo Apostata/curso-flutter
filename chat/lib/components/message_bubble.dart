@@ -1,6 +1,5 @@
 import 'package:chat/helpers/crossPlatFormImageUtils.dart';
 import 'package:chat/models/chat_message.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
