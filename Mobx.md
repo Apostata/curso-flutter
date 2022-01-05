@@ -1,6 +1,9 @@
 # MobX
 Similar ao redux, usa padrão observable
 
+**Minha opinião**: implementação no Flutter parece gateada, mas é bem fácil de usar. Até então prefiro o Provider sozinho do que ter que adicionar mais 3 dependências
+
+
 ## Criando uma Store
 
 
@@ -23,9 +26,9 @@ abstract class _ContadorStore with Store {
 ```
 ## implementando
 
-
 flutter pub run build_runner clean
 flutter pub run build_runner watch
+
 
 ```dart
 ...
@@ -64,4 +67,14 @@ class HomePage extends StatelessWidget {
   }
 }
 
+```
+
+para melhorar o tempo do build do commando watch, criar um arquivo `build.yaml`, restringindo assim as pastas que o watch irá procurar na raiz:
+```yaml
+targets:
+  $default:
+    builders:
+      mobx_codegen|mobx_generator:
+        generate_for:
+          - "lib/store/**.store.dart"
 ```
