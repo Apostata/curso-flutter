@@ -356,3 +356,22 @@ class OrdersPageFuture extends StatelessWidget {
   }
 }
 ```
+
+
+### PreferedSiziWidget
+Umas das utilidades é para transformar um widget em AppBar por exemplo
+este widget precisa implementar o get de `preferredSize`
+```dart
+import 'package:flutter/material.dart';
+
+class ResultadoWidget extends StatelessWidget implements PreferredSizeWidget {
+ ...
+
+  @override
+  Size get preferredSize => const Size.fromHeight(120);
+}
+
+```
+
+### SafeArea
+considera paddins e margens para mostrar o conteúdo de acordo com o sistema operacional. eliminando dobrepor informações dele
