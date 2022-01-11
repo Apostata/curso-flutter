@@ -375,3 +375,36 @@ class ResultadoWidget extends StatelessWidget implements PreferredSizeWidget {
 
 ### SafeArea
 considera paddins e margens para mostrar o conteúdo de acordo com o sistema operacional. eliminando dobrepor informações dele
+
+### GridView
+Monta um grid baseado numa lista
+```dart
+
+class TabuleiroWidget extends StatelessWidget {
+  final Tabuleiro tabuleiro;
+  final void Function(Campo) onOpen;
+  final void Function(Campo) onToggleMarcacao;
+
+  const TabuleiroWidget({
+    Key? key, 
+    required this.tabuleiro, 
+    required this.onOpen, 
+    required this.onToggleMarcacao,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GridView.count(
+      crossAxisCount: tabuleiro.colunas,
+      children: tabuleiro.campos.map((campo) => 
+        CampoWidget(
+          campo: campo,
+          onOpen: onOpen,
+          onToggleMarcacao: onToggleMarcacao,
+        ),
+      ).toList(),
+    );
+  }
+}
+
+```
