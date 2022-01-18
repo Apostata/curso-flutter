@@ -1,91 +1,54 @@
-## Authenticação
-```json
-{
-  "rules": {
-    ".read": "auth != null",
-    ".write": "auth != null",
-  }
-}
-```
-## instalando Firebase pra uso IOS, Android e web
-Basta entrar no console criar um projeto no firebase para seu app e dentro do firebase criar 3 apps, um para cada plataforma, seguindo o passo a passo de instalação e configuração de dependências.
+# Flutter 
 
-### nota IOS:
- Quem estiver passando pelo problema "CocoaPods's specs repository is too out-of-date to satisfy dependencies." durante o deploy para iOS é por conta que você precisa atualizar algumas questões do CocoaPods. Para fazer isso é bem simples.
+## instalanção
+https://docs.flutter.dev/get-started/install
+instalar o `android studio` : https://developer.android.com/studio
 
-Basta abrir a pasta "iOS" dentro do seu projeto no terminal. Ou seja, ter uma janela do terminal apontando para a pasta "iOS" dentro do seu projeto. Com isso feito, utilize o comando →
+## Verificar instalação e setup do projeto
+no terminal dentro da pasta do projeto : `flutter doctor`
 
-pod install --repo-update
-Isso irá atualizar e instalar as dependências relacionadas ao CocoaPods necessárias.
+## concordando com os termos de licensa do android (Android)
+no terminal, na pasta do projeto: `flutter doctor --android-licenses`
 
-### nota Android:
-Evitar o limite de 64 K
+## verificando se tem algum emulador
+`flutter emulators`
 
-```kotlin
-android {
-    defaultConfig {
-        ...
-        minSdk = 15
-        targetSdk = 28
-        multiDexEnabled = true
-    }
-    ...
-}
+## rodando emulador
+`flutter emulators --lauch {ID_DO_EMULADOR}`
 
-dependencies {
-    implementation("androidx.multidex:multidex:2.0.1")
-}
-```
+## rodando o projeto
+`flutter run` 
 
-### adicionando pacotes do firebase:
-cloud_firestore : `flutter pub add cloud_firestore`
-firebase_auth : `flutter pub add firebase_auth`
+## Suporte para desktop
 
+### windows
+instalar o Visual studio com o pacode `Desktop development with C++`
+então:
+rodar o comando no terminal, na pasta do projeto: `flutter config --enable-windows-desktop`
+e
+`flutter channel master`
+`flutter upgrade`
+`flutter config --enable-windows-uwp-desktop`
 
+## Suporte para web
+### Criar novo projeto com supporte para web
+no terminal, na pasta do projeto: 
+`flutter channel stable`
+`flutter upgrade`
 
-## inicializando a aplicação
+ao executar o comando `flutter devices`, você irá verificar que terá (se o chrome estiver instalado) o device em chome no edge da mesma forma
+
+Executando em dev : `flutter run -d chrome` 
+gerando build : `flutter build web` 
+
+### Adicionando suport web a um projeto já existente
+no terminal, na pasta do projeto: `flutter create .`
+
+## HotReload
+No curso da Alura o professor comenta em deixar função `main()` da seguinte forma, para que o `HotReload` funcione perfeitamente
+
 ```dart
-...
-import 'package:firebase_core/firebase_core.dart';
-
-class AuthOrChat extends StatelessWidget {
-  const AuthOrChat({Key? key}) : super(key: key);
-
-  Future<void> init(BuildContext context) async {
-    await Firebase.initializeApp();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: init(context),
-      builder: (fbctx, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const LoadingPage();
-        }
-        return StreamBuilder(
-          stream: AuthService().userChanges,
-          builder: (ctx, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const LoadingPage();
-            } else {
-              return snapshot.hasData ? const ChatPage() : const AuthPage();
-            }
-          },
-        );
-      },
-    );
-  }
+void main() {
+  runApp(const ByteBank());
 }
-
 ```
-
-
-### firebase Storage
-service firebase.storage {
-  match /b/{bucket}/o {
-    match /{allPaths=**} {
-      allow read, write: if request.auth != null;
-    }
-  }
-}

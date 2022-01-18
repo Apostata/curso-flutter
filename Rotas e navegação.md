@@ -290,3 +290,79 @@ class TabsPage extends StatelessWidget {
 }
 
 ```
+
+## Retornando parametros da rota
+Ao navegar para o Formulário passa o callback da rota ao realizar a funcção
+
+```dart
+import 'package:alura_bytebank/pages/FormularioTransferenciaPage.dart';
+import 'package:flutter/material.dart';
+import '../components/ListaTransferencia.dart';
+
+class ListaTransferenciaPage extends StatelessWidget {
+  const ListaTransferenciaPage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Transferências'),
+      ),
+      body: const ListaTransferencia(),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          final Future<dynamic> routeReturn = Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (ctx) => const FormularioTransferenciaPage(),
+            ),
+          );
+          routeReturn.then( //quando retornar o callback pegar a transferencia criada
+            (transferencia) => debugPrint(transferencia.toString()),
+          );
+        },
+        child: const Icon(Icons.add),
+      ),
+    );
+  }
+}
+```
+na página de criação da transferência ao criar a transferencia, navegar de volta para a tela de lista
+
+```dart
+import 'package:alura_bytebank/components/Inputs.dart';
+import 'package:alura_bytebank/models/Transferencia.dart';
+import 'package:flutter/material.dart';
+
+class FormularioTransferencia extends StatelessWidget {
+  final TextEditingController _controlardorNumeroConta =
+      TextEditingController();
+  final TextEditingController _controladorValor = TextEditingController();
+
+  FormularioTransferencia({Key? key}) : super(key: key);
+
+  void _criaTransferencia(BuildContext context) {
+    final numeroConta = int.tryParse(_controlardorNumeroConta.text);
+    final valor = double.tryParse(_controladorValor.text);
+    if (numeroConta != null && valor != null) {
+      final transferencia =
+          Transferencia(numeroConta: numeroConta, valor: valor);
+      Navigator.pop(context, transferencia); //navega de volta com a transferencia criada
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Input(_controlardorNumeroConta, 'Número da conta', '0000'),
+        Input(_controladorValor, 'Valor', '0.0', icone: Icons.monetization_on),
+        ElevatedButton(
+          onPressed: () => _criaTransferencia(context),
+          child: const Text('Confirmar'),
+        )
+      ],
+    );
+  }
+}
+```

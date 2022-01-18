@@ -1,6 +1,20 @@
 # Widgets ou componentes
 Resumo geral da função dos componentes nativos do flutter
 
+# Criando um Widget
+```dart
+class ListaTransferencia extends Widget{
+
+  
+  @override
+  Element createElement() {
+    // TODO: implement createElement
+    throw UnimplementedError();
+  }
+
+```
+
+# Lista de Widgets
 ## Configuração da App/Page
 ### APP
 - MaterialApp / CupertinoApp
