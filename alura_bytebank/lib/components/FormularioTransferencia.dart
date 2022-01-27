@@ -21,15 +21,18 @@ class FormularioTransferencia extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Input(_controlardorNumeroConta, 'Número da conta', '0000'),
-        Input(_controladorValor, 'Valor', '0.0', icone: Icons.monetization_on),
-        ElevatedButton(
-          onPressed: () => _criaTransferencia(context),
-          child: const Text('Confirmar'),
-        )
-      ],
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          Input(_controlardorNumeroConta, 'Número da conta', '0000'),
+          Input(_controladorValor, 'Valor', '0.0',
+              icone: Icons.monetization_on),
+          ElevatedButton(
+            onPressed: () => _criaTransferencia(context),
+            child: const Text('Confirmar'),
+          )
+        ],
+      ),
     );
   }
 }

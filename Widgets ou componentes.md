@@ -390,6 +390,36 @@ class ResultadoWidget extends StatelessWidget implements PreferredSizeWidget {
 ### SafeArea
 considera paddins e margens para mostrar o conteúdo de acordo com o sistema operacional. eliminando dobrepor informações dele
 
+
+### ListView
+Cria uma lista com rolagem automática, criar a partir de uma lista estática ou dinâmica
+`ListView` para estáticos e `ListView.builder`  para dinâmicos.
+
+Estático:
+```dart
+ListView(
+  children: [
+   ...
+  ]
+)
+```
+
+Dinâmico:
+```dart
+ListView.builder(
+  children: [
+    ItemTransferencia(
+      Transferencia(valor: 100.23, numeroConta: 1000),
+    ),
+    ItemTransferencia(
+      Transferencia(valor: 202.54, numeroConta: 1001),
+    ),
+  ]
+)
+```
+
+
+
 ### GridView
 Monta um grid baseado numa lista
 ```dart
@@ -421,4 +451,21 @@ class TabuleiroWidget extends StatelessWidget {
   }
 }
 
+```
+
+### InkWell 
+é um componente que tem um Gesture detector, ou seja que é iterativo ao toque e implementa s animação padrão do material. Para alterar a cor do componente `InkWell` precisamos coloca-lo dentro de um widget `Material`, com a propriedade color
+
+```dart
+  Material(
+    color: Theme.of(context).colorScheme.primary,
+    child: InkWell(
+      onTap: () {
+       ...
+      },
+      child: Container(
+        child: ...
+      ),
+    ),
+  ),
 ```
