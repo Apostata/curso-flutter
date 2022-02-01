@@ -9,7 +9,7 @@ class Keyboard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 500,
       child: Column(
         children: [
@@ -29,7 +29,7 @@ class Keyboard extends StatelessWidget {
               callback: callback,
             ),
           ]),
-          SizedBox(height: 1),
+          const SizedBox(height: 1),
           ButtonRow([
             Button(
               text: '7',
@@ -48,7 +48,7 @@ class Keyboard extends StatelessWidget {
               callback: callback,
             ),
           ]),
-          SizedBox(height: 1),
+          const SizedBox(height: 1),
           ButtonRow([
             Button(
               text: '4',
@@ -67,7 +67,7 @@ class Keyboard extends StatelessWidget {
               callback: callback,
             ),
           ]),
-          SizedBox(height: 1),
+          const SizedBox(height: 1),
           ButtonRow([
             Button(
               text: '1',
@@ -86,7 +86,7 @@ class Keyboard extends StatelessWidget {
               callback: callback,
             ),
           ]),
-          SizedBox(height: 1),
+          const SizedBox(height: 1),
           ButtonRow([
             Button.big(
               text: '0',

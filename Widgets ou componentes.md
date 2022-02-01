@@ -322,53 +322,43 @@ class _OrdersPageState extends State<OrdersPage> {
 ```
 
 ### FutureBuilder
-Um builder baseado em uma conexão, podendo tratar os estados da conexão para exibir diferentes tipos de widgets, não necessita estar em um componente stateFull
+Um builder baseado em uma conexão, podendo tratar os estados da conexão para exibir diferentes tipos de widgets, não necessita estar em um componente stateFull, pode receber um genérics e pode ter um dado inicial
 
 ```dart
 ...
 
-class OrdersPageFuture extends StatelessWidget {
-  const OrdersPageFuture({ Key? key }) : super(key: key);
-
-  Future<void> _refreshOrders(BuildContext context){
-    return Provider.of<Orders>(context, listen: false).getOrders();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Meus Pedidos'),
-      ),
-      body: FutureBuilder(
-        future: Provider.of<Orders>(context, listen: false).getOrders(),
-        builder: (ftureCtx, snapshot){
-          if(snapshot.connectionState == ConnectionState.waiting){
-            return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.error != null) {
-            return const Center(child: Text('Ocorreu um erro'));
-          } else {
-            return RefreshIndicator(
-              onRefresh: ()=>_refreshOrders(context),
-              child: Consumer<Orders>(
-                builder: (context, orders, _) =>
-                  ListView.builder(
-                    itemCount: orders.items.length,
-                    itemBuilder: (builderContext, i) => OrderWidget(
-                      order: orders.items[i],
-                      key: ValueKey(orders.items[i].id),
-                    ),
-                  ),
-              ),
-            );
-          }
-        },
-      ),
-      drawer: const AppDrawer(),
-    );
-  }
-}
+FutureBuilder<List<Contact>>(
+  initialData: const [],
+  future: contactService.readContacts(),
+  builder: (ctx, snapshot) {
+    switch (snapshot.connectionState) {
+      case ConnectionState.none: //future não executado
+        break;
+      case ConnectionState.waiting:
+        return Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: const [
+              CircularProgressIndicator(),
+              Text('Loading...'),
+            ],
+          ),
+        );
+      case ConnectionState
+          .active: // tem dado disponível mas não terminou a execuçao, como uma Stream
+        break;
+      case ConnectionState.done:
+        final contacts = snapshot.data;
+        return ListView.builder(
+          itemCount: contacts?.length ?? 0,
+          itemBuilder: (ctx, index) => ContactListItem(
+            contact: contacts![index],
+          ),
+        );
+    }
+    return const Text('Unkonwn error');
+  },
+),
 ```
 
 
@@ -393,11 +383,12 @@ considera paddins e margens para mostrar o conteúdo de acordo com o sistema ope
 
 ### ListView
 Cria uma lista com rolagem automática, criar a partir de uma lista estática ou dinâmica
-`ListView` para estáticos e `ListView.builder`  para dinâmicos.
+`ListView` para estáticos e `ListView.builder`  para dinâmicos, podendo também passar a direção do scroll para caso ultrapasse o tamanho da tela.
 
 Estático:
 ```dart
 ListView(
+  scrollDirection: Axis.horizontal
   children: [
    ...
   ]
@@ -468,4 +459,13 @@ class TabuleiroWidget extends StatelessWidget {
       ),
     ),
   ),
+```
+
+### SingleChildScrollView
+para adicionar rolagem tanto na horizontal ou vertical
+```dart
+SingleChildScrollView(
+  scrollDirection: Axix.horizontal //ou vertical
+  child:...
+)
 ```

@@ -67,6 +67,7 @@ class _ProductManagerEditState extends State<ProductManagerEdit> {
     }
 
     _imageUrlFocus.addListener(updateImage);
+    return null;
   }
 
   void updateImage() {

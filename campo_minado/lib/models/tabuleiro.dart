@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:campo_minado/models/campo.dart';
-import 'package:campo_minado/models/explosao_exception.dart';
 
 class Tabuleiro {
   final int linhas;

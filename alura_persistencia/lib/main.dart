@@ -3,6 +3,11 @@ import 'package:alura_persistencia/theme/theme.dart';
 import 'package:flutter/material.dart';
 
 void main() {
+  // WidgetsFlutterBinding.ensureInitialized();
+  // DbUtil.getData('contacts').then((lista) {
+  //   debugPrint(lista.toString());
+  // });
+
   runApp(const ByteBankApp());
 }
 

@@ -10,12 +10,15 @@ class Places with ChangeNotifier {
   List<Place> _places = [];
 
   Future<void> loadPlaces() async {
-    final dataList = await DdUtil.getData('places');
+    final dataList = await DbUtil.getData('places');
     _places = dataList
         .map((dataPlace) => Place(
               id: dataPlace['id'],
               title: dataPlace['title'],
-              location: Location(latitude: dataPlace['latitude'], longitude: dataPlace['longitude'], address: dataPlace['address']),
+              location: Location(
+                  latitude: dataPlace['latitude'],
+                  longitude: dataPlace['longitude'],
+                  address: dataPlace['address']),
               image: File(dataPlace['image']),
             ))
         .toList();
@@ -42,12 +45,15 @@ class Places with ChangeNotifier {
     final place = Place(
       id: Random().nextDouble().toString(),
       title: title,
-      location: Location(latitude: position.latitude, longitude: position.longitude, address: address),
+      location: Location(
+          latitude: position.latitude,
+          longitude: position.longitude,
+          address: address),
       image: image,
     );
     _places.add(place);
 
-    DdUtil.insert('places', {
+    DbUtil.insert('places', {
       //inserindo no banco SQLite
       'id': place.id,
       'title': place.title,
@@ -61,7 +67,7 @@ class Places with ChangeNotifier {
   }
 
   void removePlace(String id) async {
-    await DdUtil.remove('places', id);
+    await DbUtil.remove('places', id);
     _places = [...places].where((place) => place.id != id).toList();
     notifyListeners();
   }

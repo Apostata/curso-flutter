@@ -1,6 +1,5 @@
+import 'package:alura_persistencia/services/contact_service.dart';
 import 'package:flutter/material.dart';
-
-import '../models/contact_model.dart';
 
 class ContactFormPage extends StatelessWidget {
   final TextEditingController _nameController = TextEditingController();
@@ -10,6 +9,8 @@ class ContactFormPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final contactService = ContactService();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('New Contact'),
@@ -54,8 +55,9 @@ class ContactFormPage extends StatelessWidget {
                   final String name = _nameController.text;
                   final int account =
                       int.tryParse(_accountController.text) ?? 0;
-                  final contact = Contact(name: name, account: account);
-                  Navigator.pop(context, contact);
+                  contactService
+                      .saveContact(name, account)
+                      .then((value) => Navigator.pop(context));
                 },
                 child: const Text('Create'),
               ),
