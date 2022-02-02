@@ -20,6 +20,14 @@ void findAll() async {
 ### Timeout
 Note que a o response acima está com 5 segundos de timeout, sendo assim, após 5 segundos ira terminar o processamento
 
+podemos colocar o timeout no client que iremos usar também
+
+```dart
+ Client httpClient = InterceptedClient.build(
+    requestTimeout: Duration(seconds:5)
+  );
+```
+
 ## interceptors
 ### instalando
 Precisamos instalar outra dependência :
@@ -51,11 +59,10 @@ void findAll() async {
     interceptors: [
       LoggingInterceptor(),
     ],
+    requestTimeout: Duration(seconds:5)
   );
   final url = Uri.parse('http://192.168.15.9:8080/transactions');
-  final response = await httpClient.get(url).timeout(
-          const Duration(seconds: 5),
-        );;
+  final response = await httpClient.get(url)
 }
 
 ```
