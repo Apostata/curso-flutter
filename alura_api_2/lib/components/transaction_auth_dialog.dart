@@ -49,14 +49,14 @@ class _TransactionAuthDialogState extends State<TransactionAuthDialog> {
             widget.onConfirm(_passwordController.text),
             Navigator.pop(context)
           },
-          child: Text('Confirm'),
+          child: const Text('Confirm'),
         ),
         TextButton(
           onPressed: () {
             widget.onCancel();
             Navigator.pop(context);
           },
-          child: Text('Cancel'),
+          child: const Text('Cancel'),
         )
       ],
     );

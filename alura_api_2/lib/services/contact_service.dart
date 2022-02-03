@@ -1,6 +1,5 @@
 import 'package:alura_api_2/data/db_utils.dart';
 import 'package:alura_api_2/models/contact_model.dart';
-import 'package:uuid/uuid.dart';
 
 class ContactService {
   // singleton pattern

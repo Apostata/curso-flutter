@@ -11,7 +11,7 @@ class ContactFormPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final contactService = ContactService();
-    final contactId = Uuid().v4();
+    final contactId = const Uuid().v4();
 
     return Scaffold(
       appBar: AppBar(
