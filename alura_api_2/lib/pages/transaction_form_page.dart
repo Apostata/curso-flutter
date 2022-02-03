@@ -1,11 +1,13 @@
 import 'dart:async';
 
-import 'package:alura_api_2/components/response_dialog.dart';
+import 'package:alura_api_2/components/loading.dart';
+import 'package:alura_api_2/components/loadingButton.dart';
 import 'package:alura_api_2/components/transaction_auth_dialog.dart';
 import 'package:alura_api_2/errors/httpException.dart';
-// import 'package:alura_api_2/errors/httpException.dart';
+import 'package:alura_api_2/helpers/showDialogs.dart';
 import 'package:alura_api_2/services/transaction_service.dart';
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 
 import '../models/contact_model.dart';
 import '../models/transaction_model.dart';
@@ -22,44 +24,34 @@ class TransactionFormPage extends StatefulWidget {
 
 class _TransactionFormPageState extends State<TransactionFormPage> {
   final TextEditingController _valueController = TextEditingController();
+  final String transactionId = const Uuid().v4();
+  bool _loading = false;
 
   void _save(
     Transaction transactionCreated,
     String? password,
     BuildContext context,
   ) async {
+    setState(() {
+      _loading = true;
+    });
     try {
       await widget.transactionService.save(
         transactionCreated,
         password,
       );
+      await showSuccessDialog(context, message: 'Success Transaction');
       Navigator.pop(context);
     } on TimeoutException catch (_) {
-      showDialog(
-          context: context,
-          builder: (ctxDialog) {
-            return ResponseDialog(
-              title: 'Failure',
-              message: 'Timeout submitting transaction',
-              icon: Icons.warning,
-              // buttonText: 'OK',
-              colorIcon: Colors.red,
-            );
-          });
+      showErrorDialog(context, message: 'Timeout submitting transaction');
     } on HttpException catch (error) {
-      showDialog(
-          context: context,
-          builder: (ctxDialog) {
-            return ResponseDialog(
-              title: 'Failure',
-              message: error.message,
-              icon: Icons.warning,
-              // buttonText: 'OK',
-              colorIcon: Colors.red,
-            );
-          });
+      showErrorDialog(context, message: error.message);
+    } catch (e) {
+      showErrorDialog(context);
     } finally {
-      // alguma coisa
+      setState(() {
+        _loading = false;
+      });
     }
   }
 
@@ -105,23 +97,27 @@ class _TransactionFormPageState extends State<TransactionFormPage> {
                 padding: const EdgeInsets.only(top: 16.0),
                 child: SizedBox(
                   width: double.maxFinite,
-                  child: ElevatedButton(
-                    child: const Text('Transfer'),
-                    onPressed: () {
-                      final double? value =
-                          double.tryParse(_valueController.text);
-                      final transactionCreated =
-                          Transaction(value, widget.contact);
-                      showDialog(
-                        context: context,
-                        builder: (dialogCtx) => TransactionAuthDialog(
-                          onConfirm: (String? password) {
-                            _save(transactionCreated, password, context);
+                  child: LoadingButton(
+                    loading: _loading,
+                    text: _loading ? 'Sending' : 'Transfer',
+                    onPress: _loading
+                        ? null
+                        : () {
+                            final double? value =
+                                double.tryParse(_valueController.text);
+                            final transactionCreated = Transaction(
+                                transactionId, value, widget.contact);
+                            showDialog(
+                              context: context,
+                              builder: (dialogCtx) => TransactionAuthDialog(
+                                onConfirm: (String? password) {
+                                  _save(transactionCreated, password, context);
+                                  // print(transactionId);
+                                },
+                                onCancel: () {},
+                              ),
+                            );
                           },
-                          onCancel: () {},
-                        ),
-                      );
-                    },
                   ),
                 ),
               )

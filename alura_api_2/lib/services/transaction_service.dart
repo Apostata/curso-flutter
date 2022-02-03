@@ -10,7 +10,8 @@ const baseUrl = 'http://apostata.ddns.net/transactions';
 
 const Map<int, String> _statusCodeResponses = {
   400: 'There was an error submitting transaction!',
-  401: 'Authentication failed!'
+  401: 'Authentication failed!',
+  409: 'Transaction already exists!'
 };
 
 class TransactionService {
@@ -30,7 +31,7 @@ class TransactionService {
   Future<Transaction?> save(Transaction transaction, String? password) async {
     final url = Uri.parse(baseUrl);
     final body = jsonEncode(transaction.toJson());
-
+    // await Future.delayed(const Duration(seconds: 10));
     final Response data = await httpClient.post(
       url,
       headers: {
@@ -45,6 +46,7 @@ class TransactionService {
       return Transaction.fromJson(response);
     }
     throw HttpException(
-        message: _statusCodeResponses[data.statusCode] ?? 'unknow Error');
+      message: _statusCodeResponses[data.statusCode] ?? 'Unknow Error',
+    );
   }
 }

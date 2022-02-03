@@ -35,11 +35,10 @@ class ContactService {
     return contacts;
   }
 
-  Future<int> saveContact(String name, int accountNumber) async {
-    Uuid uuid = const Uuid();
+  Future<int> saveContact(String id, String name, int accountNumber) async {
     return db.insert(
       'contacts',
-      {"id": uuid.v1(), "name": name, "accountNumber": accountNumber},
+      {"id": id, "name": name, "accountNumber": accountNumber},
     );
   }
 }

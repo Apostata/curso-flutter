@@ -7,13 +7,14 @@ class ResponseDialog extends StatelessWidget {
   final IconData? icon;
   final Color colorIcon;
 
-  ResponseDialog({
+  const ResponseDialog({
+    Key? key,
     this.title = "",
     this.message = "",
     this.icon,
     this.buttonText = 'Ok',
     this.colorIcon = Colors.black,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -59,6 +60,36 @@ class ResponseDialog extends StatelessWidget {
           onPressed: () => Navigator.pop(context),
         )
       ],
+    );
+  }
+}
+
+class ErrorDialog extends StatelessWidget {
+  final String message;
+  const ErrorDialog({Key? key, required this.message}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ResponseDialog(
+      title: 'Failure',
+      message: message,
+      icon: Icons.warning,
+      colorIcon: Colors.red,
+    );
+  }
+}
+
+class SuccessDialog extends StatelessWidget {
+  final String message;
+  const SuccessDialog({Key? key, required this.message}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ResponseDialog(
+      title: 'Succsess',
+      message: message,
+      icon: Icons.check,
+      colorIcon: Colors.green,
     );
   }
 }

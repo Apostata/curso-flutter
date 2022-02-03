@@ -1,5 +1,6 @@
 import 'package:alura_api_2/services/contact_service.dart';
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 
 class ContactFormPage extends StatelessWidget {
   final TextEditingController _nameController = TextEditingController();
@@ -10,6 +11,7 @@ class ContactFormPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final contactService = ContactService();
+    final contactId = Uuid().v4();
 
     return Scaffold(
       appBar: AppBar(
@@ -58,7 +60,7 @@ class ContactFormPage extends StatelessWidget {
                         final int account =
                             int.tryParse(_accountController.text) ?? 0;
                         contactService
-                            .saveContact(name, account)
+                            .saveContact(contactId, name, account)
                             .then((value) => Navigator.pop(context));
                       }
                     : null,
