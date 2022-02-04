@@ -53,17 +53,14 @@ class ContactFormPage extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: _nameController.text.isNotEmpty &&
-                        int.tryParse(_nameController.text) != 0
-                    ? () {
-                        final String name = _nameController.text;
-                        final int account =
-                            int.tryParse(_accountController.text) ?? 0;
-                        contactService
-                            .saveContact(contactId, name, account)
-                            .then((value) => Navigator.pop(context));
-                      }
-                    : null,
+                onPressed: () {
+                  final String name = _nameController.text;
+                  final int account =
+                      int.tryParse(_accountController.text) ?? 0;
+                  contactService
+                      .saveContact(contactId, name, account)
+                      .then((value) => Navigator.pop(context));
+                },
                 child: const Text('Create'),
               ),
             )

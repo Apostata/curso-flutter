@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "610763993851",
+    "project_id": "alura-crashlytics-ee2ba",
+    "storage_bucket": "alura-crashlytics-ee2ba.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:610763993851:android:dfbb1a42dfd57f015cb65e",
+        "android_client_info": {
+          "package_name": "com.example.alura_firebase_crashlytcs"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "610763993851-d7q26a9tmnmalru2804fe7il7s0o9rht.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDXM_ZkDPoQbxIX8FY7JKuW5SbFcmrZ-8M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "610763993851-d7q26a9tmnmalru2804fe7il7s0o9rht.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

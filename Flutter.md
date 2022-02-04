@@ -52,3 +52,46 @@ void main() {
   runApp(const ByteBank());
 }
 ```
+
+## Error de minSdk version
+Caso algum projeto esteja com erro de minSdk version, pode ser mudado:
+
+_1. Na configuração local do projeto:_
+   
+   __1.1. no arquivo `android/local.properties`, colocar:__
+
+    ```java
+    ...
+    flutter.minSdkVersion=21
+    ...
+    ```
+   __1.2 no arquivo `android/app/build.gradle`. alterar__
+
+    ```js
+    ...
+    defaultConfig {
+      //de
+      ...
+        minSdkVersion flutter.minSdkVersion
+      //para
+        minSdkVersion localProperties.getProperty('flutter.minSdkVersion').toInteger()
+        ...
+    }
+    ...
+    ```
+   _
+_2. Na configuração global do flutter para todos projetos para usar a versão desejada_
+mudar no arquivo `flutter-directory/packages/flutter_tools/gradle/flutter.gradle`
+
+  ```java
+  class FlutterExtension {
+      /** Sets the compileSdkVersion used by default in Flutter app projects. */
+      static int compileSdkVersion = 31
+
+      /** Sets the minSdkVersion used by default in Flutter app projects. */
+      static int minSdkVersion = 16 // mudar aqui
+
+      /** Sets the targetSdkVersion used by default in Flutter app projects. */
+      static int targetSdkVersion = 31
+  ```
+  change the value of the minSdkVersion from 16 to 20 or above, and do not disturb the code in build.gradle.
