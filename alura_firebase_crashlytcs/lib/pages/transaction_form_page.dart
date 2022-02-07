@@ -6,6 +6,7 @@ import 'package:alura_firebase_crashlytcs/errors/httpException.dart';
 import 'package:alura_firebase_crashlytcs/helpers/ErrorsCrashalytics.dart';
 import 'package:alura_firebase_crashlytcs/helpers/showDialogs.dart';
 import 'package:alura_firebase_crashlytcs/helpers/showSnackBar.dart';
+import 'package:alura_firebase_crashlytcs/helpers/showToast.dart';
 import 'package:alura_firebase_crashlytcs/services/transaction_service.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
@@ -43,42 +44,24 @@ class _TransactionFormPageState extends State<TransactionFormPage> {
         password,
       );
       // await showSuccessDialog(context, message: 'Success Transaction');
-      await showSnackbar(
-        context: context,
-        message: 'Success Transaction',
-        icon: Icons.check,
-        iconColor: Colors.green,
-        onClose: () {
-          Navigator.pop(context);
-        },
-      );
+      await showSuccessSnackbar(
+          context: context, message: 'Success Transaction');
+      // await showSuccessToast(message: 'Success Transaction');
     } on TimeoutException catch (e) {
       sendCrashalytics(e, transactionCreated.toString());
       // showErrorDialog(context, message: 'Timeout submitting transaction');
-      showSnackbar(
-        context: context,
-        message: 'Timeout error',
-        icon: Icons.warning,
-        iconColor: Colors.red,
-      );
+      showErrorSnackbar(context: context, message: 'Timeout error');
+      // showErrorToast(message: 'Timeout error');
     } on HttpException catch (e) {
       sendCrashalytics(e, transactionCreated.toString());
       // showErrorDialog(context, message: e.message);
-      showSnackbar(
-        context: context,
-        message: e.message,
-        icon: Icons.warning,
-        iconColor: Colors.red,
-      );
+      showErrorSnackbar(context: context, message: e.message);
+      // showErrorToast(message: e.message);
     } catch (e) {
       sendCrashalytics(e, transactionCreated.toString());
       // showErrorDialog(context);
-      showSnackbar(
-        context: context,
-        message: 'Unknow Error!',
-        icon: Icons.warning,
-        iconColor: Colors.red,
-      );
+      showErrorSnackbar(context: context);
+      // showErrorToast();
     } finally {
       setState(() {
         _loading = false;

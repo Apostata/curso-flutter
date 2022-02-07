@@ -5,7 +5,7 @@ import 'package:http/http.dart';
 import '../http/webclient.dart';
 import '../models/transaction_model.dart';
 
-const baseUrl = 'http://192.168.15.6:8080/transactions';
+const baseUrl = 'http://apostata.ddns.net/transactions';
 // const baseUrl = 'http://192.168.0.102:8080/transactions';
 
 const Map<int, String> _statusCodeResponses = {

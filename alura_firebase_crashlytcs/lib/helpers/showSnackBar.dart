@@ -39,3 +39,30 @@ showSnackbar({
     onClose != null ? onClose() : null;
   });
 }
+
+showErrorSnackbar({
+  required BuildContext context,
+  String message = 'Unknow Error!',
+}) {
+  return showSnackbar(
+    context: context,
+    message: message,
+    icon: Icons.warning,
+    iconColor: Colors.red,
+  );
+}
+
+showSuccessSnackbar({
+  required BuildContext context,
+  String message = 'Succeded!',
+}) {
+  return showSnackbar(
+    context: context,
+    message: message,
+    icon: Icons.check,
+    iconColor: Colors.green,
+    onClose: () {
+      Navigator.pop(context);
+    },
+  );
+}
