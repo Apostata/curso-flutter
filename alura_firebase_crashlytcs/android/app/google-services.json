@@ -7,7 +7,7 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:610763993851:android:dfbb1a42dfd57f015cb65e",
+        "mobilesdk_app_id": "1:610763993851:android:999356fa616c109c5cb65e",
         "android_client_info": {
           "package_name": "com.example.alura_firebase_crashlytcs"
         }

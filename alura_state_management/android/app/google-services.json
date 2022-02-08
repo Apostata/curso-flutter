@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "704817726769",
+    "project_id": "alura-state-magagement",
+    "storage_bucket": "alura-state-magagement.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:704817726769:android:4e8c1c5dd2f47a0fb5dc10",
+        "android_client_info": {
+          "package_name": "com.example.alura_state_management"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "704817726769-54gjsd107vvgmvd23q28p88fqdj7hfpq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCpvOZRziNpEu3Khr0XsHlcgeGQEsMeKss"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "704817726769-54gjsd107vvgmvd23q28p88fqdj7hfpq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

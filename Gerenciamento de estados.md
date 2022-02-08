@@ -214,11 +214,6 @@ class ProductItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final product = Provider.of<Product>(
-      context,
-      listen: false
-    );
-
     return ClipRRect(
       borderRadius: BorderRadius.circular(10),
       child: GridTile(
@@ -243,6 +238,8 @@ class ProductItem extends StatelessWidget {
   }
 }
 ```
+
+**Utilizar o consumer para atulizar parte da tela apenas, utilizar o Provider.of() quando precisar de mais de uma parte ou quando precisa apenas dos metodos do provider**
 
 #### Refatorando o provider e grid de produtos (Resolvendo problema com Key)
 Como omo iremos reutilizar o grid tanto no catalogo da loja como no carrinho, mas o catalogo pode ou não mostrar os produtos favoritos, iremos refatorar algumas coias
