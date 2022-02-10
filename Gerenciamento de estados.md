@@ -460,3 +460,9 @@ class MyApp extends StatelessWidget {
 }
 ```
 
+## BLoC 
+Um pattern de separação de estado e interface
+usando Cubits, Containers e Views (apenas nomenclaturas)
+Cubit: é o gerenciador do estado, em comparação com o redux seria o reducer + actions
+Container: é o integrador entre o estado e a view, em comparação com o redux seria o connect(class components) ou useSelector(hooks)
+View: é o componente visual em si, 
