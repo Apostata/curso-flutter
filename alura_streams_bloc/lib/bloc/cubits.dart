@@ -60,8 +60,4 @@ class TransactionFormCubit extends Cubit<TransactionFormState> {
       emit(InitTransactionFormState());
     }
   }
-
-  // SentTransactionFormState
-  // SendingTransactionFormState
-
 }

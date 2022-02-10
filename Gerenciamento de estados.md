@@ -466,3 +466,147 @@ usando Cubits, Containers e Views (apenas nomenclaturas)
 Cubit: é o gerenciador do estado, em comparação com o redux seria o reducer + actions
 Container: é o integrador entre o estado e a view, em comparação com o redux seria o connect(class components) ou useSelector(hooks)
 View: é o componente visual em si, 
+
+### Cubit
+O responsável por gerenciamento do estado e emissão de eventos caso ocorra uma mudança no estado:
+
+
+```dart
+class ContactListCubit extends Cubit<ContactsListState> {
+  final contactService = ContactService();
+  ContactListCubit() : super(InitContacsListState());
+
+  void reload() async {
+    emit(LoadingContactsListSate());
+    List<Contact> contacts = await contactService.readContacts();
+    if (contacts.isEmpty) {
+      emit(EmptyContactListState());
+    } else {
+      emit(LoadedContactsListSate(contacts));
+    }
+  }
+}
+```
+
+No caso o método `emit()` é quem de fato emite as alterações de estado
+O Cubit recebe um Tipo genérico que será o estado que ele irá mudar
+
+### Container
+Um statelessWidget comum, responsável pela integração entre o Cubit e a View de fato, única particularidade é que sempre vai retornar um Componente Bloc.
+O componente Bloc sempre vai receber o Cubit, para integra-lo a tela.
+
+no caso abaixo `BlocProvider`, recebe um Cubit do tipo `TransactionFormCubit`, e itegra com a tela `TransactionFormPage`. No exemplo abaixo ele tem um `BlocListener` que estará sempre escutando uma mudança no estado e tomará uma atitude no caso quando o state for `InitTransactionState`
+
+```dart
+class TransactionFormContainer extends StatelessWidget {
+  final Contact contact;
+  const TransactionFormContainer({
+    Key? key,
+    required this.contact,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider<TransactionFormCubit>(
+      create: (context) {
+        final cubit = TransactionFormCubit();
+        return cubit;
+      },
+      child: BlocListener<TransactionFormCubit, TransactionFormState>(
+        listener: (context, state) {
+          if (state is InitTransactionFormState) {
+            print('enviou!');
+          }
+        },
+        child: TransactionFormPage(
+          contact: contact,
+        ),
+      ),
+    );
+  }
+}
+```
+
+### View
+A O componente que receberá os estados do Cubit através do Container
+Neste caso usamos o `BlocBuilder` passando os tipos `TransactionFormCubit` referenciando o Cubit e  `TransactionFormState` referenciando o estado.
+Neste caso qualquer mudança de estado no Cubit será escutada na View, e o `BlocBuilder` irá renderizar a mudança
+
+```dart
+class SendingTransactionFormSate extends TransactionFormState {
+  SendingTransactionFormSate();
+}
+
+class InitTransactionFormState extends TransactionFormState {
+  InitTransactionFormState();
+}
+
+class TransactionFormPage extends StatelessWidget with BlocView {
+  final Contact contact;
+  final TextEditingController _valueController = TextEditingController();
+  final String transactionId = const Uuid().v4();
+
+  TransactionFormPage({
+    Key? key,
+    required this.contact,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('New transaction'),
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              ...
+              Padding(
+                padding: const EdgeInsets.only(top: 16.0),
+                child: SizedBox(
+                    width: double.maxFinite,
+                    child:
+                        BlocBuilder<TransactionFormCubit, TransactionFormState>(
+                            builder: (context, state) {
+                      bool loading = state is SendingTransactionFormSate;
+                      return LoadingButton(
+                        loading: loading,
+                        text: loading ? 'Sending' : 'Transfer',
+                        onPress: loading
+                            ? null
+                            : () {
+                                final double? value =
+                                    double.tryParse(_valueController.text);
+                                final transactionCreated =
+                                    Transaction(transactionId, value, contact);
+                                showDialog(
+                                  context: context,
+                                  builder: (dialogCtx) => TransactionAuthDialog(
+                                    onConfirm: (String? password) {
+                                      BlocProvider.of<TransactionFormCubit>(
+                                              context)
+                                          .save(
+                                        transactionCreated,
+                                        password,
+                                        context,
+                                      );
+                                    },
+                                    onCancel: () {},
+                                  ),
+                                );
+                              },
+                      );
+                    })),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+```
