@@ -610,3 +610,29 @@ class TransactionFormPage extends StatelessWidget with BlocView {
 }
 
 ```
+
+
+### Monitorando estados na aplicação
+No arquivo mainDart
+
+
+```dart
+...
+class LogObserver extends BlocObserver {
+  @override
+  void onChange(BlocBase bloc, Change change) {
+    debugPrint('${bloc.runtimeType} > $change');
+    super.onChange(bloc, change);
+  }
+}
+...
+ BlocOverrides.runZoned(
+    () {
+      runApp(
+        const MyApp(),
+      );
+    },
+    blocObserver: LogObserver(),
+  );
+  ...
+```
