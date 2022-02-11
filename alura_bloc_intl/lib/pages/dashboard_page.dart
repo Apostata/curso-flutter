@@ -3,7 +3,6 @@ import 'package:alura_bloc_intl/bloc/containers/ContactList_container.dart';
 import 'package:alura_bloc_intl/bloc/cubits/Name_cubit.dart';
 import 'package:alura_bloc_intl/components/dashboard_item.dart';
 import 'package:alura_bloc_intl/helpers/navigation.dart';
-import 'package:alura_bloc_intl/models/I18nMessages.dart';
 import 'package:alura_bloc_intl/models/Locale_model.dart';
 import 'package:alura_bloc_intl/pages/name_page.dart';
 import 'package:alura_bloc_intl/pages/transaction_list_page.dart';

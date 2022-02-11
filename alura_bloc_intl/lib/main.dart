@@ -13,7 +13,7 @@ class LogObserver extends BlocObserver {
 }
 
 void main() {
-  // WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
   BlocOverrides.runZoned(
     () {
       runApp(
@@ -31,6 +31,7 @@ class ByteBankApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: const LocalizationContainer(
+        language: 'pt-br',
         child: DashboardContiner(
           initialState: 'Rene',
         ),

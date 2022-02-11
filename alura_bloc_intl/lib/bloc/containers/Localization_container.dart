@@ -3,20 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LocalizationContainer extends StatelessWidget {
+  final String language;
   final Widget child;
   const LocalizationContainer({
     Key? key,
     required this.child,
+    required this.language,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    // return BlocProvider.value(
-    //   value: LocaleCubit(),
-    //   child: child,
-    // );
     return BlocProvider<LocaleCubit>(
-      create: (context) => LocaleCubit(),
+      create: (context) => LocaleCubit(language),
       child: child,
     );
   }

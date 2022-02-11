@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LocaleCubit extends Cubit<String> {
-  LocaleCubit() : super('pt-br');
+  final String language;
+  LocaleCubit(this.language) : super(language);
 }

@@ -3,8 +3,8 @@ class I18nMessages {
   I18nMessages(this.messages);
 
   String get(String key) {
-    assert(messages.containsKey(key));
-    return messages[key] ?? '????????';
+    // assert(messages.containsKey(key));
+    return messages[key] ?? '{$key}';
   }
 
   @override

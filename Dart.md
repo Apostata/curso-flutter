@@ -304,6 +304,37 @@ recebe 2 parametros o primeiro é o valor inicial, no caso abaixo é o `0` e o s
     });
   }
 ```
+#### typedef 
+  Um typedef, ou alias de tipo de função, dá a um tipo de função um nome que você pode usar ao declarar campos e tipos de retorno. Um typedef retém informações de tipo quando um tipo de função é atribuído a uma variável.
+
+```dart
+abstract class Teste {
+  dynamic get param;
+  Teste();
+  void log() {
+    print(param);
+  }
+}
+
+class Teste1 extends Teste {
+  @override
+  final dynamic param;
+  Teste1(this.param);
+}
+
+typedef TypeDefSample = Teste Function(dynamic valor);
+
+void main() {
+  TypeDefSample teste = (dynamic oples) {
+    return Teste1(oples);
+  };
+
+// esse teste consiste em instanciar uma classe filha e ter o retorno com o tipo do pai
+// permitindo assim algo similar a uma chamada dinâmica passando parametros
+
+  teste.call(23).log(); //pode ser chamado com call ou sem
+  teste('wewe').log();
+```
 
 ### Classes
 classes são modelos como um corola é um modelo de um carro,
@@ -405,7 +436,7 @@ class Carro {
 ```
 
 ### Mixins
-Mixin funciona como copiar e colar os metodos e propriedades dele para uma classe, dart apenas herda de uma única classe, mixins resolve este problema.
+Mixin funciona como copiar e colar os metodos e propriedades dele para uma classe, dart apenas herda de uma única classe, mixins resolve este problema. Aparentemente classes podem ser usadas como mixins também.
 
 ```dart
 class Carro {

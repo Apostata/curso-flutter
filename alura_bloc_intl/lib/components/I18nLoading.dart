@@ -44,7 +44,7 @@ class I18nLoading extends StatelessWidget {
         if (state is I18nLoadedState) {
           final messages = state._messages;
           debugPrint(messages.toString());
-          return creator.call(messages);
+          return creator(messages);
         }
         return const CenteredMessagePage(message: 'Unknow Error');
       },

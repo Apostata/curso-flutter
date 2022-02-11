@@ -9,14 +9,24 @@ typedef I18nWidgetCreactor = Widget Function(I18nMessages messages);
 
 class I18nContainer extends StatelessWidget {
   final I18nWidgetCreactor creator;
-  const I18nContainer({Key? key, required this.creator}) : super(key: key);
+  final String viewKey;
+  final String language;
+  const I18nContainer({
+    Key? key,
+    required this.creator,
+    required this.viewKey,
+    required this.language,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider<I18nMessagesCubit>(
       create: (context) {
         final cubit = I18nMessagesCubit();
-        cubit.reload();
+        cubit.reload(
+          viewKey: viewKey,
+          language: language,
+        );
         return cubit;
       },
       child: I18nLoading(creator: creator),

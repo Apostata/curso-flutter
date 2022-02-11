@@ -467,6 +467,7 @@ Cubit: é o gerenciador do estado, em comparação com o redux seria o reducer +
 Container: é o integrador entre o estado e a view, em comparação com o redux seria o connect(class components) ou useSelector(hooks)
 View: é o componente visual em si, 
 
+De forma geral toda view tem uma camada, neste caso o Container, que irá incorporar o estado do cubit na view.
 ### Cubit
 O responsável por gerenciamento do estado e emissão de eventos caso ocorra uma mudança no estado:
 
