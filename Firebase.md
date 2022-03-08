@@ -38,6 +38,7 @@ dependencies {
 ```
 
 ### adicionando pacotes do firebase:
+firebase_core: `flutter pub add firebase_core`
 cloud_firestore : `flutter pub add cloud_firestore`
 firebase_auth : `flutter pub add firebase_auth`
 
